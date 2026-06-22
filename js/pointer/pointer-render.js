@@ -3,102 +3,116 @@
 // =======================================
 
 class PointerRenderer {
-    constructor() {
-        this.codeContainer = document.getElementById('code-container');
-        this.vizContainer = document.getElementById('viz-container');
-        this.explainContainer = document.getElementById('explanation-container');
-    }
+  constructor() {
+    this.codeContainer = document.getElementById("code-container");
+    this.vizContainer = document.getElementById("viz-container");
+    this.explainContainer = document.getElementById("explanation-container");
+  }
 
-    // Render code panel
-    renderCode(codeLines, activeIndex) {
+  // Render code panel
+  renderCode(codeLines, activeIndex) {
+    this.codeContainer.innerHTML = codeLines
+      .map((line, index) => {
+        const isActive = index === activeIndex ? "active" : "";
 
-        this.codeContainer.innerHTML = codeLines.map((line, index) => {
+        const highlighted = hljs.highlight(line, { language: "cpp" }).value;
 
-            const isActive = index === activeIndex ? 'active' : '';
-
-            const highlighted = hljs.highlight(line, { language: 'cpp' }).value;
-
-            return `
+        return `
                 <div class="code-line ${isActive}">
                     <span class="line-number">${index + 1}</span>
                     <span class="line-content">${highlighted}</span>
                 </div>
             `;
+      })
+      .join("");
+  }
 
-        }).join('');
-    }
+  // Render Phần mô phỏng bộ nhớ
+  /**
+   * kiểm tra xem bài học hiện tại có vùng nhớ Heap nào xuất hiện không để quyết định có hiển thị phần Heap hay không
+   * @param {Object} memoryState - Trạng thái bộ nhớ hiện tại, bao gồm các biến thường, con trỏ và vùng nhớ động (heap)
+   * @returns {void}
+   * @description
+   * Hàm này sẽ xây dựng giao diện mô phỏng bộ nhớ dựa trên trạng thái bộ nhớ hiện tại. Nó sẽ gom các biến thường và con trỏ vào phần Stack, trong khi các vùng nhớ động sẽ được gom vào phần Heap.
+   * Nếu bài học hiện tại không có bất kỳ vùng nhớ động nào, phần Heap sẽ không được hiển thị để giữ cho giao diện gọn gàng hơn.
+   * Hàm này cũng sẽ gọi phương thức drawPointers để vẽ các mũi tên thể hiện mối quan hệ giữa con trỏ và biến mà nó trỏ tới.
+   * @example
+   * renderVisualization(currentStepData.memoryState);
+   * // Cập nhật giao diện mô phỏng bộ nhớ
+   */
+  renderVisualization(memoryState, hasHeap) {
+    let stackHtml = "";
+    let heapHtml = "";
 
-    // Render visualization panel
-    renderVisualization(memoryState) {
-        let html = `
-            <svg id="arrow-layer"></svg>
+    // Gom các biến thường vào Stack
+    memoryState.variables.forEach((v) => {
+      stackHtml += `
+        <div class="memory-block" id="var-${v.name}">
+            <div style="color: #9CDCFE">${v.type} ${v.name}</div>
+            <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">${v.value}</div>
+            <div class="memory-address">Addr: ${v.address}</div>
+        </div>
+      `;
+    });
 
-            <div class="memory-title">
-                STACK MEMORY
+    // Gom các con trỏ vào Stack
+    memoryState.pointers.forEach((p) => {
+      stackHtml += `
+        <div class="memory-block" style="border-color: #C586C0" id="ptr-${p.name}">
+            <div style="color: #C586C0">int* ${p.name}</div>
+            <div style="font-size: 16px; margin: 10px 0;">${p.value}</div>
+            <div class="memory-address">Addr: ${p.address}</div>
+        </div>
+      `;
+    });
+
+    // Gom vùng nhớ động vào Heap
+    memoryState.heap.forEach((cell) => {
+      heapHtml += `
+        <div class="memory-block heap-block" id="heap-${cell.name}">
+            <div style="color:#FFB74D">${cell.type}</div>
+            <div style="font-size:24px">${cell.value}</div>
+            <div class="memory-address">Addr: ${cell.address}</div>
+        </div>
+      `;
+    });
+
+    // Ráp HTML với điều kiện hiển thị Heap
+    let html = `
+        <svg id="arrow-layer"></svg>
+        <div class="memory-layout">
+            <div class="stack-area">
+                <div class="memory-title">STACK MEMORY</div>
+                <div id="stack-content" class="memory-container">${stackHtml}</div>
             </div>
-        `;
+    `;
 
-        // Render regular variables
-        memoryState.variables.forEach(v => {
-            html += `
-                <div class="memory-block" id="var-${v.name}">
-                    
-                    <div style="color: #9CDCFE">
-                        ${v.type} ${v.name}
-                    
-                    </div>
-
-                    <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">
-                        ${v.value}
-                    </div>
-
-                    <div class="memory-address">
-                        Addr: ${v.address}
-                    </div>
-                </div>
-            `;
-        });
-
-        // Render Pointers
-        memoryState.pointers.forEach(p => {
-            html += `
-                <div class="memory-block" style="border-color: #C586C0" id="ptr-${p.name}">
-                    <div style="color: #C586C0">
-                        int* ${p.name}
-                    </div>
-
-                    <div style="font-size: 16px; margin: 10px 0;">
-                        ${p.value}
-                    </div>
-
-                    <div class="memory-address">
-                        Addr: ${p.address}
-                    </div>
-                </div>
-            `;
-            // Note: Draw arrow logic via SVG/Canvas would go here to connect elements
-        });
-
-        this.vizContainer.innerHTML = html;
-        this.drawPointers(memoryState);
+    if (hasHeap) {
+      html += `
+            <div class="heap-area">
+                <div class="memory-title">HEAP MEMORY</div>
+                <div id="heap-content" class="memory-container">${heapHtml}</div>
+            </div>
+      `;
     }
 
-    // Render explanation panel
-    renderExplanation(steps, currentStepId) {
+    html += `</div>`;
 
+    this.vizContainer.innerHTML = html;
+    this.drawPointers(memoryState);
+  }
+
+  // Render Phần giải thích
+  renderExplanation(steps, currentStepId) {
     const visibleSteps = steps
-        .slice(0, currentStepId + 1)
-        .filter(step => step.explanation !== null);
+      .slice(0, currentStepId + 1)
+      .filter((step) => step.explanation !== null);
 
     this.explainContainer.innerHTML = visibleSteps
-        .map((step, index) => {
+      .map((step, index) => {
+        const latest = index === visibleSteps.length - 1 ? "latest-step" : "";
 
-            const latest =
-                index === visibleSteps.length - 1
-                ? 'latest-step'
-                : '';
-
-            return `
+        return `
                 <div class="step-card ${latest}">
                     <div class="step-header">
                         Step ${index + 1}
@@ -109,90 +123,85 @@ class PointerRenderer {
                     </div>
                 </div>
             `;
-        })
-        .join('');
-}
+      })
+      .join("");
+  }
 
-    // Update the whole UI based on current step data
-    updateUI(lessonData, currentStepIndex) {
-        const currentStepData = lessonData.steps[currentStepIndex];
+  // Update the whole UI based on current step data
+  // Update the whole UI based on current step data
+  updateUI(lessonData, currentStepIndex) {
+    const currentStepData = lessonData.steps[currentStepIndex];
 
-        // Cấu hình code
-        this.renderCode(lessonData.codeLines, currentStepData.activeCodeLine);
-        const currentLineInfo =
-        document.getElementById('current-line-info');
-        currentLineInfo.textContent = `Current Line: ${currentStepData.activeCodeLine + 1}`;
-        
-        // Cấu hình mô phỏng trên vùng nhớ
-        this.renderVisualization(currentStepData.memoryState);
+    // Kiểm tra xem bài học hiện tại có vùng nhớ Heap nào xuất hiện không
+    const hasHeap = lessonData.steps.some(
+      (step) => step.memoryState.heap && step.memoryState.heap.length > 0,
+    );
 
-        // Cấu hình giải thích 
-        this.renderExplanation(lessonData.steps, currentStepIndex);
-    }
+    // Cấu hình code
+    this.renderCode(lessonData.codeLines, currentStepData.activeCodeLine);
+    const currentLineInfo = document.getElementById("current-line-info");
+    currentLineInfo.textContent = `Current Line: ${currentStepData.activeCodeLine + 1}`;
 
-    // vẽ mũi tên giữa 2 box với nhau 
-    drawPointers(memoryState) {
-    const svg = document.getElementById('arrow-layer');
-    svg.innerHTML = '';
+    // LỖI 1 ĐÃ SỬA Ở ĐÂY: Truyền thêm hasHeap vào hàm
+    this.renderVisualization(currentStepData.memoryState, hasHeap);
 
-    memoryState.pointers.forEach(pointer => {
+    // Cấu hình giải thích
+    this.renderExplanation(lessonData.steps, currentStepIndex);
+  }
 
-        if (pointer.value === "???") {
-            return;
-        }
+  // vẽ mũi tên giữa 2 box với nhau
+  drawPointers(memoryState) {
+    const svg = document.getElementById("arrow-layer");
+    svg.innerHTML = "";
 
-        const from = document.getElementById(`ptr-${pointer.name}`);
-        const to = document.getElementById(`var-${pointer.pointsTo}`);
-        
-        if (!from || !to) {
-            return;
-        }
+    // Lấy toạ độ tuyệt đối của thẻ SVG để tính toán chính xác
+    const svgRect = svg.getBoundingClientRect();
 
-        // Tọa độ Y luôn lấy ở giữa tâm của 2 box
-        const y1 = from.offsetTop + (from.offsetHeight / 2);
-        const y2 = to.offsetTop + (to.offsetHeight / 2);
+    memoryState.pointers.forEach((pointer) => {
+      if (pointer.value === "???") {
+        return;
+      }
 
-        let x1, x2;
+      const from = document.getElementById(`ptr-${pointer.name}`);
+      // LỖI 2 ĐÃ SỬA Ở ĐÂY: Dùng let thay vì const để có thể gán lại nếu trỏ vào Heap
+      let to = document.getElementById(`var-${pointer.pointsTo}`);
+      if (!to) {
+        to = document.getElementById(`heap-${pointer.pointsTo}`);
+      }
 
-        // Kiểm tra vị trí tương đối: Con trỏ nằm bên TRÁI hay bên PHẢI biến?
-        if (from.offsetLeft > to.offsetLeft) {
-            // Trường hợp của bạn: Con trỏ (p) nằm bên PHẢI biến (x)
-            x1 = from.offsetLeft; // Xuất phát từ mép TRÁI của con trỏ
-            x2 = to.offsetLeft + to.offsetWidth + 5; // Cắm vào mép PHẢI của biến, +5px để cách viền
-        } else {
-            // Đề phòng sau này có biến nào xếp bên phải con trỏ
-            x1 = from.offsetLeft + from.offsetWidth; // Xuất phát từ mép PHẢI của con trỏ
-            x2 = to.offsetLeft - 5; // Cắm vào mép TRÁI của biến, -5px để cách viền
-        }
+      if (!from || !to) {
+        return;
+      }
 
-        svg.innerHTML += `
+      // LỖI 3 ĐÃ SỬA Ở ĐÂY: Dùng getBoundingClientRect() thay vì offsetTop/Left
+      const fromRect = from.getBoundingClientRect();
+      const toRect = to.getBoundingClientRect();
+
+      // Tọa độ Y luôn lấy ở giữa tâm của 2 box
+      const y1 = fromRect.top - svgRect.top + fromRect.height / 2;
+      const y2 = toRect.top - svgRect.top + toRect.height / 2;
+
+      let x1, x2;
+
+      // Kiểm tra vị trí tương đối: Con trỏ nằm bên TRÁI hay bên PHẢI biến?
+      if (fromRect.left > toRect.left) {
+        // Con trỏ nằm bên PHẢI biến
+        x1 = fromRect.left - svgRect.left;
+        x2 = toRect.right - svgRect.left + 5; // Cắm vào mép PHẢI của biến, +5px
+      } else {
+        // Con trỏ nằm bên TRÁI biến
+        x1 = fromRect.right - svgRect.left;
+        x2 = toRect.left - svgRect.left - 5; // Cắm vào mép TRÁI của biến, -5px
+      }
+
+      svg.innerHTML += `
         <defs>
-            <marker
-                id="arrowhead"
-                markerWidth="10"
-                markerHeight="10"
-                refX="8"
-                refY="3"
-                orient="auto">
-
-                <polygon
-                    points="0 0, 10 3, 0 6"
-                    fill="#C586C0"/>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#C586C0"/>
             </marker>
         </defs>
-
-        <line
-            x1="${x1}"
-            y1="${y1}"
-            x2="${x2}"
-            y2="${y2}"
-
-            stroke="#C586C0"
-            stroke-width="3"
-
-            marker-end="url(#arrowhead)"
-        />
+        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#C586C0" stroke-width="3" marker-end="url(#arrowhead)"/>
         `;
     });
-}
+  }
 }

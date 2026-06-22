@@ -1,84 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DSA Visualizer - Pointer Lesson</title>
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/pointer.css">
-    <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css">
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/pointer.css" />
+    <link rel="stylesheet" href="../css/home.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app-container">
-
-        <nav class="navbar">
-            <div class="nav-left">
-                <span class="logo"></span>
-                <span class="website-name">DSA.Visualizer</span>
-            </div>
-            <div class="nav-right">
-                <a href="../index.html" class="btn">Back to Home</a>
-            </div>
-        </nav>
-
-        <div class="main-wrapper">
-            <aside class="sidebar">
-                <div class="sidebar-menu">
-                    <a href="../index.html" class="sidebar-item">Home</a>
-                    <a href="#" class="sidebar-item active">Con trỏ</a>
-                    <a href="#" class="sidebar-item">Cấp phát động</a>
-                </div>
-            </aside>
-
-            <main class="workspace-wrapper">
-                <div class="panels-container">
-
-                    <!-- phần hiển thị code, trạng thái chạy-->
-                    <div class="code-panel">
-                        <h3>Code</h3>
-                        
-                        <div id="current-line-info">
-                            Current Line: 1
-                        </div>
-                        <br>
-                        <br>
-                        <div class="code-block" id="code-container">
-                        </div>
-                    </div>
-
-                    <!-- Phần mô phỏng trên bộ nhớ -->
-                        <div class="viz-panel" id="viz-container">
-
-                        </div>
-                 
-                    <!-- Hiển thị chú thích từng bước -->
-                    <div class="explain-panel">
-                        <h3>Explanation</h3>
-                        <br>
-                        <div id="explanation-container">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="control-panel">
-                    <button id="btn-reset" class="control-btn">Reset</button>
-                    <button id="btn-prev" class="control-btn">Previous</button>
-                    <button id="btn-play-pause" class="control-btn btn-primary">Play</button>
-                    <button id="btn-next" class="control-btn">Next</button>
-                </div>
-            </main>
+      <nav class="navbar">
+        <div class="nav-left">
+          <span class="logo"></span>
+          <span class="website-name">DSA.Visualizer</span>
         </div>
+        <div class="nav-right">
+          <a href="../index.html" class="btn">Back to Home</a>
+        </div>
+      </nav>
+
+      <div class="main-wrapper">
+        <aside class="sidebar">
+          <div class="sidebar-menu">
+            <a href="../index.html" class="sidebar-item">Home</a>
+            <a href="#" class="sidebar-item active" id="btn-pointer"
+              >Con trỏ cơ bản</a
+            >
+            <a href="#" class="sidebar-item" id="btn-dynamic">Cấp phát động</a>
+            <a href="#" class="sidebar-item">Pointer Arithmetic</a>
+            <a href="#" class="sidebar-item">Dangling Pointer</a>
+          </div>
+        </aside>
+
+        <main class="workspace-wrapper">
+          <div class="panels-container">
+            <!-- phần hiển thị code, trạng thái chạy-->
+            <div class="code-panel">
+              <h3>Code</h3>
+
+              <div id="current-line-info">Current Line: 1</div>
+              <br />
+              <br />
+              <div class="code-block" id="code-container"></div>
+            </div>
+
+            <!-- Phần mô phỏng trên bộ nhớ -->
+            <div class="viz-panel" id="viz-container"></div>
+
+            <!-- Hiển thị chú thích từng bước -->
+            <div class="explain-panel">
+              <h3>Explanation</h3>
+              <br />
+              <div id="explanation-container"></div>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <button id="btn-reset" class="control-btn">Reset</button>
+            <button id="btn-prev" class="control-btn">Previous</button>
+            <button id="btn-play-pause" class="control-btn btn-primary">
+              Play
+            </button>
+            <button id="btn-next" class="control-btn">Next</button>
+          </div>
+        </main>
+      </div>
     </div>
 
     <script src="../js/pointer/pointer-data.js"></script>
     <script src="../js/pointer/pointer-render.js"></script>
     <script src="../js/pointer/pointer-control.js"></script>
-</body>
-
+  </body>
 </html>
