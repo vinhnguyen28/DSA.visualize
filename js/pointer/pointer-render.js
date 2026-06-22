@@ -152,6 +152,7 @@ class PointerRenderer {
   // vẽ mũi tên giữa 2 box với nhau
   drawPointers(memoryState) {
     const svg = document.getElementById("arrow-layer");
+    if (!svg) return;
     svg.innerHTML = "";
 
     // Lấy toạ độ tuyệt đối của thẻ SVG để tính toán chính xác
@@ -163,7 +164,6 @@ class PointerRenderer {
       }
 
       const from = document.getElementById(`ptr-${pointer.name}`);
-      // LỖI 2 ĐÃ SỬA Ở ĐÂY: Dùng let thay vì const để có thể gán lại nếu trỏ vào Heap
       let to = document.getElementById(`var-${pointer.pointsTo}`);
       if (!to) {
         to = document.getElementById(`heap-${pointer.pointsTo}`);
@@ -173,34 +173,60 @@ class PointerRenderer {
         return;
       }
 
-      // LỖI 3 ĐÃ SỬA Ở ĐÂY: Dùng getBoundingClientRect() thay vì offsetTop/Left
       const fromRect = from.getBoundingClientRect();
       const toRect = to.getBoundingClientRect();
 
-      // Tọa độ Y luôn lấy ở giữa tâm của 2 box
-      const y1 = fromRect.top - svgRect.top + fromRect.height / 2;
-      const y2 = toRect.top - svgRect.top + toRect.height / 2;
+      let x1, y1, x2, y2;
 
-      let x1, x2;
-
-      // Kiểm tra vị trí tương đối: Con trỏ nằm bên TRÁI hay bên PHẢI biến?
-      if (fromRect.left > toRect.left) {
-        // Con trỏ nằm bên PHẢI biến
+      // KIỂM TRA VỊ TRÍ TƯƠNG ĐỐI ĐỂ NỐI MŨI TÊN CHÍNH XÁC
+      if (fromRect.bottom <= toRect.top) {
+        // TRƯỜNG HỢP 1: Từ Stack xuống Heap (Xếp dọc - Con trỏ ở TRÊN ô nhớ Heap)
+        x1 = fromRect.left - svgRect.left + fromRect.width / 2;
+        y1 = fromRect.bottom - svgRect.top;
+        x2 = toRect.left - svgRect.left + toRect.width / 2;
+        y2 = toRect.top - svgRect.top - 5; // Chừa 5px cho đầu mũi tên tiếp đất đẹp mắt
+      } else if (fromRect.top >= toRect.bottom) {
+        // TRƯỜNG HỢP 2: Con trỏ nằm ở DƯỚI ô nhớ được trỏ
+        x1 = fromRect.left - svgRect.left + fromRect.width / 2;
+        y1 = fromRect.top - svgRect.top;
+        x2 = toRect.left - svgRect.left + toRect.width / 2;
+        y2 = toRect.bottom - svgRect.top + 5;
+      } else if (fromRect.left > toRect.left) {
+        // TRƯỜNG HỢP 3: Xếp ngang (Con trỏ nằm bên PHẢI biến - Giống bài cơ bản p và x)
         x1 = fromRect.left - svgRect.left;
-        x2 = toRect.right - svgRect.left + 5; // Cắm vào mép PHẢI của biến, +5px
+        y1 = fromRect.top - svgRect.top + fromRect.height / 2;
+        x2 = toRect.right - svgRect.left + 5;
+        y2 = toRect.top - svgRect.top + toRect.height / 2;
       } else {
-        // Con trỏ nằm bên TRÁI biến
+        // TRƯỜNG HỢP 4: Xếp ngang (Con trỏ nằm bên TRÁI biến)
         x1 = fromRect.right - svgRect.left;
-        x2 = toRect.left - svgRect.left - 5; // Cắm vào mép TRÁI của biến, -5px
+        y1 = fromRect.top - svgRect.top + fromRect.height / 2;
+        x2 = toRect.left - svgRect.left - 5;
+        y2 = toRect.top - svgRect.top + toRect.height / 2;
       }
 
       svg.innerHTML += `
         <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="10"
+                refX="8"
+                refY="3"
+                orient="auto">
                 <polygon points="0 0, 10 3, 0 6" fill="#C586C0"/>
             </marker>
         </defs>
-        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#C586C0" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+        <line
+            x1="${x1}"
+            y1="${y1}"
+            x2="${x2}"
+            y2="${y2}"
+            stroke="#C586C0"
+            stroke-width="3"
+            marker-end="url(#arrowhead)"
+        />
         `;
     });
   }
