@@ -7,24 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderer = new PointerRenderer();
   let currentLesson = lessons.pointer;
 
+  // icon sổ trang
   document.querySelectorAll(".menu-header").forEach((header) => {
     header.addEventListener("click", () => {
-      header.parentElement.classList.toggle("open");
+      const menuItem = header.closest(".menu-item");
+      const arrow = header.querySelector(".arrow");
+
+      menuItem.classList.toggle("open");
+      arrow.classList.toggle("rotate");
     });
   });
-  // icon sổ trang 
-  const menuItem = document.querySelector(".menu-header");
-  const arrow = document.querySelector(".arrow");
-  const submenu = document.querySelector(".menu-item");
-
-  menuItem.addEventListener("click", () => {
-    submenu.classList.toggle("active");
-    arrow.classList.toggle("rotate");
-});
-  // const btnbtnppp = document.getElementById("something-wrong");
-  // btnbtnppp.addEventListener("click", () => {
-  //   return `overflow: hidden;`;
-  // });
 
   // Khởi tạo State
   let currentStep = 0; // Khởi tạo state hiện tại, bắt đầu từ bước 0
@@ -39,8 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnPlayPause = document.getElementById("btn-play-pause");
 
   // Nút chuyển bài học
-  const btnPointer = document.getElementById("btn-pointer");
-  const btnDynamic = document.getElementById("btn-dynamic");
+  const btnPointer = document.getElementById("btn-pointer"); // 1.1
+  const btnAddressOperator = document.getElementById("btn-AddressOperator"); // 1.2
+  const btnDereference = document.getElementById("btn-Dereference"); // 1.3
+  const btnPointerAssignment = document.getElementById("btn-PointerAssignment"); // 1.4
+  const btnNullPointer = document.getElementById("btn-NullPointer"); // 1.5
+  const btnPointertoPointer = document.getElementById("btn-PointertoPointer"); // 1.6
+
+  const btnDynamic = document.getElementById("btn-new"); // 2.1
 
   /**
    * Cập nhật giao diện dựa trên bước hiện tại và dữ liệu bài học
@@ -120,10 +118,19 @@ document.addEventListener("DOMContentLoaded", () => {
    * họ sẽ bắt đầu từ bước đầu tiên của bài học đó và giao diện sẽ được cập nhật chính xác theo dữ liệu của bài học mới.
    * Nếu đang ở trạng thái play, sẽ tự động pause để tránh việc tự động chuyển bước khi người dùng đang xem một bài học khác.
    */
+  function setActiveButton(button) {
+    document.querySelectorAll(".lesson-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+  }
+  // lession 1.1
   btnPointer.addEventListener("click", () => {
     if (isPlaying) {
       togglePlay();
     }
+    setActiveButton(btnPointer);
 
     btnPointer.classList.add("active");
     btnDynamic.classList.remove("active");
@@ -137,15 +144,51 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCurrentState();
   });
 
+  // lession 1.2
   btnDynamic.addEventListener("click", () => {
     if (isPlaying) {
       togglePlay();
     }
+    setActiveButton(btnDynamic);
 
-    btnDynamic.classList.add("active");
-    btnPointer.classList.remove("active");
+    // btnDynamic.classList.add("active");
+    // btnPointer.classList.remove("active");
 
-    currentLesson = lessons.dynamicMemory;
+    currentLesson = lessons.new;
+
+    currentStep = 0;
+
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lession 1.3
+  btnAddressOperator.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnAddressOperator);
+
+    // btnAddressOperator.classList.add("active");
+    // btnPointer.classList.remove("active");
+
+    currentLesson = lessons.AddressOperator;
+
+    currentStep = 0;
+
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lession 1.4
+  btnDereference.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnDereference);
+    currentLesson = lessons.Dereference;
 
     currentStep = 0;
 

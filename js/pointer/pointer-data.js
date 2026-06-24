@@ -4,6 +4,10 @@
 
 // Chứa toàn bộ dữ liệu mô phỏng, code, text giải thích.
 const lessons = {
+  // ===============================
+  // ======= Con trỏ cơ bản ========
+  // ===============================
+
   pointer: {
     codeLines: [
       "int main()",
@@ -95,8 +99,450 @@ const lessons = {
       },
     ],
   },
+  // ========================
+  AddressOperator: {
+    codeLines: [
+      "int main()",
+      "{",
+      "   int x = 10;",
+      "   int* p;",
+      "   p = &x;",
+      "   *p = 20;",
+      "}",
+    ],
+    steps: [
+      {
+        activeCodeLine: 0, // "int x = 10;"
+        explanation: null,
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 2, // "int x = 10;"
+        explanation: "Cấp phát bộ nhớ cho biến x và lưu giá trị 10.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 3, // "int* p = &x;"
+        explanation: "Tạo biến con trỏ p để lưu địa chỉ của một số nguyên.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "???", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 4, // "int* p = &x;"
+        explanation: "Lưu địa chỉ của x vào p, tạo liên kết từ p tới x.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 5, // "*p = 20;"
+        explanation: "Thông qua p, ghi đè giá trị tại địa chỉ của x thành 20.",
+        memoryState: {
+          variables: [
+            {
+              name: "x",
+              value: "20",
+              address: "0x100",
+              type: "int",
+              isUpdated: true,
+            },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
 
-  dynamicMemory: {
+      {
+        stepId: 0,
+        activeCodeLine: 6, // "*p = 20;"
+        explanation: "Stack = delete",
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+    ],
+  },
+  // ========================
+  Dereference: {
+    codeLines: [
+      "{",
+      "   int x = 10;",
+      "   int* p;",
+      "   p = &x;",
+      "   *p = 20;",
+      "}",
+    ],
+    steps: [
+      {
+        activeCodeLine: 0, // "int x = 10;"
+        explanation: null,
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 2, // "int x = 10;"
+        explanation: "Cấp phát bộ nhớ cho biến x và lưu giá trị 10.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 3, // "int* p = &x;"
+        explanation: "Tạo biến con trỏ p để lưu địa chỉ của một số nguyên.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "???", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 4, // "int* p = &x;"
+        explanation: "Lưu địa chỉ của x vào p, tạo liên kết từ p tới x.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 5, // "*p = 20;"
+        explanation: "Thông qua p, ghi đè giá trị tại địa chỉ của x thành 20.",
+        memoryState: {
+          variables: [
+            {
+              name: "x",
+              value: "20",
+              address: "0x100",
+              type: "int",
+              isUpdated: true,
+            },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+
+      {
+        stepId: 0,
+        activeCodeLine: 6, // "*p = 20;"
+        explanation: "Stack = delete",
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+    ],
+  },
+  // =============================
+  PointerAssignment: {
+    codeLines: ["{", "   int x = 10;", "   p = &x;", "   *p = 20;", "}"],
+    steps: [
+      {
+        activeCodeLine: 0, // "int x = 10;"
+        explanation: null,
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 2, // "int x = 10;"
+        explanation: "Cấp phát bộ nhớ cho biến x và lưu giá trị 10.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 3, // "int* p = &x;"
+        explanation: "Tạo biến con trỏ p để lưu địa chỉ của một số nguyên.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "???", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 4, // "int* p = &x;"
+        explanation: "Lưu địa chỉ của x vào p, tạo liên kết từ p tới x.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 5, // "*p = 20;"
+        explanation: "Thông qua p, ghi đè giá trị tại địa chỉ của x thành 20.",
+        memoryState: {
+          variables: [
+            {
+              name: "x",
+              value: "20",
+              address: "0x100",
+              type: "int",
+              isUpdated: true,
+            },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+
+      {
+        stepId: 0,
+        activeCodeLine: 6, // "*p = 20;"
+        explanation: "Stack = delete",
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+    ],
+  },
+
+  // ===================
+  NullPointer: {
+    codeLines: [
+      "{",
+      "   int x = 10;",
+      "   int* p;",
+      "   p = &x;",
+      "   *p = 20;",
+    ],
+    steps: [
+      {
+        activeCodeLine: 0, // "int x = 10;"
+        explanation: null,
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 2, // "int x = 10;"
+        explanation: "Cấp phát bộ nhớ cho biến x và lưu giá trị 10.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 3, // "int* p = &x;"
+        explanation: "Tạo biến con trỏ p để lưu địa chỉ của một số nguyên.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "???", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 4, // "int* p = &x;"
+        explanation: "Lưu địa chỉ của x vào p, tạo liên kết từ p tới x.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 5, // "*p = 20;"
+        explanation: "Thông qua p, ghi đè giá trị tại địa chỉ của x thành 20.",
+        memoryState: {
+          variables: [
+            {
+              name: "x",
+              value: "20",
+              address: "0x100",
+              type: "int",
+              isUpdated: true,
+            },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+
+      {
+        stepId: 0,
+        activeCodeLine: 6, // "*p = 20;"
+        explanation: "Stack = delete",
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+    ],
+  },
+
+  // ===================
+  PointertoPointer: {
+    codeLines: [
+      "   int x = 10;",
+      "   int* p;",
+      "   p = &x;",
+      "   *p = 20;",
+      "}",
+    ],
+    steps: [
+      {
+        activeCodeLine: 0, // "int x = 10;"
+        explanation: null,
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 2, // "int x = 10;"
+        explanation: "Cấp phát bộ nhớ cho biến x và lưu giá trị 10.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 3, // "int* p = &x;"
+        explanation: "Tạo biến con trỏ p để lưu địa chỉ của một số nguyên.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "???", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 4, // "int* p = &x;"
+        explanation: "Lưu địa chỉ của x vào p, tạo liên kết từ p tới x.",
+        memoryState: {
+          variables: [
+            { name: "x", value: "10", address: "0x100", type: "int" },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+      {
+        activeCodeLine: 5, // "*p = 20;"
+        explanation: "Thông qua p, ghi đè giá trị tại địa chỉ của x thành 20.",
+        memoryState: {
+          variables: [
+            {
+              name: "x",
+              value: "20",
+              address: "0x100",
+              type: "int",
+              isUpdated: true,
+            },
+          ],
+          pointers: [
+            { name: "p", value: "0x100", address: "0x200", pointsTo: "x" },
+          ],
+          heap: [],
+        },
+      },
+
+      {
+        stepId: 0,
+        activeCodeLine: 6, // "*p = 20;"
+        explanation: "Stack = delete",
+        memoryState: {
+          variables: [],
+          pointers: [],
+          heap: [],
+        },
+      },
+    ],
+  },
+  // ===============================
+  // ======== cấp phát động=========
+  // ===============================
+
+  new: {
     codeLines: [
       "int main()",
       "{",

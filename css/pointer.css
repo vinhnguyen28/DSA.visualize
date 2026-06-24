@@ -56,24 +56,20 @@
   margin-right:10px;
 } */
 
-.arrow{
-    transition: transform 0.3s ease;
+.menu-header {
+  position: relative;
+}
+.menu-item.open .arrow {
+  transform: translateY(-50%) rotate(-180deg);
 }
 
-.arrow.rotate{
-    transform: rotate(-180deg);
+.arrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
 }
-
-.menu-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* .arrow{ */
-    /* margin-left: auto;
-    margin-right: 10px;
-} */
 
 .child-menu {
   max-height: 0;
@@ -83,21 +79,20 @@
 
 .menu-item.open .child-menu {
   /* background: #383939; */
-  max-height: 200px;
+  max-height: 1000px;
 }
 
 .menu-header-pointer {
   font-weight: bold;
   background-color: #1f2021;
   border-top-width: 0.5px;
-    border-top-style: solid;
-    border-top-color: 00080e;
+  border-top-style: solid;
+  border-top-color: 00080e;
 
-    border-bottom-width: 0.5px;
-    border-bottom-style: solid;
-    border-bottom-color: 00080e;
+  border-bottom-width: 0.5px;
+  border-bottom-style: solid;
+  border-bottom-color: 00080e;
 }
-
 
 /* ======================================= */
 /* COLUMN 1: CODE PANEL                    */
