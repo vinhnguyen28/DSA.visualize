@@ -7,11 +7,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderer = new PointerRenderer();
   let currentLesson = lessons.pointer;
 
+  document.querySelectorAll(".menu-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      header.parentElement.classList.toggle("open");
+    });
+  });
+  // icon sổ trang 
+  const menuItem = document.querySelector(".menu-item");
+  const arrow = document.querySelector(".arrow");
+  const submenu = document.querySelector(".child-menu");
+
+  menuItem.addEventListener("click", () => {
+    submenu.classList.toggle("active");
+    arrow.classList.toggle("rotate");
+});
+  // const btnbtnppp = document.getElementById("something-wrong");
+  // btnbtnppp.addEventListener("click", () => {
+  //   return `overflow: hidden;`;
+  // });
+
   // Khởi tạo State
-  let currentStep = 0;
-  let maxSteps = currentLesson.steps.length - 1;
-  let isPlaying = false;
-  let playInterval = null;
+  let currentStep = 0; // Khởi tạo state hiện tại, bắt đầu từ bước 0
+  let maxSteps = currentLesson.steps.length - 1; // Cập nhật maxSteps dựa trên bài học hiện tại
+  let isPlaying = false; // Trạng thái play/pause
+  let playInterval = null; // Biến lưu trữ interval khi đang play
 
   // Các DOM elements điều khiển
   const btnNext = document.getElementById("btn-next");
@@ -46,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentStep++;
       renderCurrentState();
     }
+    // updateButtonStates();
   });
 
   btnPrev.addEventListener("click", () => {
@@ -57,7 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnReset.addEventListener("click", () => {
     currentStep = 0;
-    if (isPlaying) togglePlay(); // Pause if playing
+
+    // Nếu đang chạy auto thì dừng lại luôn
+    if (isPlaying) togglePlay();
     renderCurrentState();
   });
 
@@ -98,8 +120,11 @@ document.addEventListener("DOMContentLoaded", () => {
    * họ sẽ bắt đầu từ bước đầu tiên của bài học đó và giao diện sẽ được cập nhật chính xác theo dữ liệu của bài học mới.
    * Nếu đang ở trạng thái play, sẽ tự động pause để tránh việc tự động chuyển bước khi người dùng đang xem một bài học khác.
    */
-  // NOTE : some thing
   btnPointer.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+
     btnPointer.classList.add("active");
     btnDynamic.classList.remove("active");
 

@@ -1,107 +1,127 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DSA Visualizer - Home</title>
     <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./css/home.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app-container">
-        <nav class="navbar">
-            <div class="nav-left">
-                <span class="logo"></span>
-                <span class="website-name">DSA.Visualizer</span>
-            </div>
-            <div class="nav-center">
-                <input type="text" class="search-bar" placeholder="Search algorithms, structures..." />
-            </div>
-            <div class="nav-right">
-                <button class="btn">Login</button>
-                <button class="btn btn-primary">Sign Up</button>
-                <div class="avatar-placeholder"></div>
-            </div>
-        </nav>
-        <div class="main-wrapper">
-            <!-- siderbar menu -->
-            <aside class="sidebar">
-                <div class="sidebar-menu">
-                    <a href="./pages/index.html" class="sidebar-item active"> Home</a>
-                    <a href="./pages/pointer.html" class="sidebar-item"> Pointer</a>
-                    <a href="./pages/linkedlist.html" class="sidebar-item"> Linked List</a>
-                    <a href="./pages/doublylist.html" class="sidebar-item">Doubly Linked List</a>
-                    <a href="./pages/tree.html" class="sidebar-item"> Tree</a>
-                    <a href="./pages/graph.html" class="sidebar-item"> Graph</a>
-                    <a href="./pages/sorting.html" class="sidebar-item"> Sorting</a>
-                    <a href="#" class="sidebar-item"> Settings</a>
-                </div>
-            </aside>
-            <main class="home-content">
-                <h1 class="home-title">Data Structures & Algorithms</h1>
-                <!-- phần thẻ ở trang chính -->
-                 
-                <div class="card-grid">
-                    <!-- thẻ con trỏ -->
-                    <div class="lesson-card">
-                        <div class="card-thumb">Pointer Image/Anim</div>
-                        <div class="card-body">
-                            <h3 class="card-title">Pointer in C++</h3>
-                            <p class="card-desc">
-                                Hiểu rõ bản chất của con trỏ, địa chỉ bộ nhớ (Stack/Heap)
-                                trong C++.
-                            </p>
-                            <a href="./pages/pointer.html" class="btn btn-primary">Learn More</a>
-                        </div>
-                    </div>
-
-                    <!-- thẻ liên kết đơn -->
-                    <div class="lesson-card">
-                        <div class="card-thumb">Linked List Image</div>
-                        <div class="card-body">
-                            <h3 class="card-title">Singly Linked List</h3>
-
-                            <p class="card-desc">
-                                Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
-                                xóa.
-                            </p>
-                            <a href="./dsa-visualizer/pages/linkedlist.html" class="btn btn-primary">Learn More</a>
-                        </div>
-                    </div>
-
-                    <!-- thẻ liên kết đôi -->
-                    <div class="lesson-card">
-                        <div class="card-thumb">Doubly Linked List</div>
-                        <div class="card-body">
-                            <h3 class="card-title">Singly Linked List</h3>
-                            <p class="card-desc">
-                                Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
-                                xóa.
-                            </p>
-                            <a href="./dsa-visualizer/pages/doublylist.html" class="btn btn-primary">Learn More</a>
-                        </div>
-                    </div>
-                    
-                    <!-- thẻ sơ đồ cây -->
-                    <div class="lesson-card">
-                        <div class="card-thumb">Tree</div>
-                        <div class="card-body">
-                            <h3 class="card-title">Tree</h3>
-                            <p class="card-desc">
-                                Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
-                                xóa.
-                            </p>
-                            <a href="./dsa-visualizer/pages/tree.html" class="btn btn-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </main>
+      <nav class="navbar">
+        <div class="nav-left">
+          <span class="logo"></span>
+          <a href="./index.html" class="website-name">DSA.Visualizer</a>
         </div>
+        <div class="nav-center">
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search algorithms, structures..."
+          />
+        </div>
+        <div class="nav-right">
+          <button class="btn">Login</button>
+          <button class="btn btn-primary">Sign Up</button>
+          <div class="avatar-placeholder"></div>
+        </div>
+      </nav>
+      <div class="main-wrapper">
+        <!-- siderbar menu -->
+        <aside class="sidebar">
+          <div class="sidebar-menu">
+            <a href="#" class="sidebar-item active"> Home</a>
+            <a href="./pages/pointer.html" class="sidebar-item"> Pointer</a>
+            <a href="./pages/linkedlist.html" class="sidebar-item">
+              Linked List</a
+            >
+            <a href="./pages/doublylist.html" class="sidebar-item"
+              >Doubly Linked List</a
+            >
+            <a href="./pages/tree.html" class="sidebar-item"> Tree</a>
+            <a href="./pages/graph.html" class="sidebar-item"> Graph</a>
+            <a href="./pages/sorting.html" class="sidebar-item"> Sorting</a>
+            <a href="#" class="sidebar-item"> Settings</a>
+          </div>
+        </aside>
+        <main class="home-content">
+          <h1 class="home-title">Data Structures & Algorithms</h1>
+          <!-- phần thẻ ở trang chính -->
+
+          <div class="card-grid">
+            <!-- thẻ con trỏ -->
+            <div class="lesson-card">
+              <div class="card-thumb">Pointer Image/Anim</div>
+              <div class="card-body">
+                <h3 class="card-title">Pointer in C++</h3>
+                <p class="card-desc">
+                  Hiểu rõ bản chất của con trỏ, địa chỉ bộ nhớ (Stack/Heap)
+                  trong C++.
+                </p>
+                <a href="./pages/pointer.html" class="btn btn-primary"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+
+            <!-- thẻ liên kết đơn -->
+            <div class="lesson-card">
+              <div class="card-thumb">Linked List Image</div>
+              <div class="card-body">
+                <h3 class="card-title">Singly Linked List</h3>
+
+                <p class="card-desc">
+                  Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
+                  xóa.
+                </p>
+                <a
+                  href="./dsa-visualizer/pages/linkedlist.html"
+                  class="btn btn-primary"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+
+            <!-- thẻ liên kết đôi -->
+            <div class="lesson-card">
+              <div class="card-thumb">Doubly Linked List</div>
+              <div class="card-body">
+                <h3 class="card-title">Singly Linked List</h3>
+                <p class="card-desc">
+                  Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
+                  xóa.
+                </p>
+                <a
+                  href="./dsa-visualizer/pages/doublylist.html"
+                  class="btn btn-primary"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+
+            <!-- thẻ sơ đồ cây -->
+            <div class="lesson-card">
+              <div class="card-thumb">Tree</div>
+              <div class="card-body">
+                <h3 class="card-title">Tree</h3>
+                <p class="card-desc">
+                  Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
+                  xóa.
+                </p>
+                <a
+                  href="./dsa-visualizer/pages/tree.html"
+                  class="btn btn-primary"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
 
     <script src="./js/home.js"></script>
-</body>
-
+  </body>
 </html>

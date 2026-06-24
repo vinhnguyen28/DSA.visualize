@@ -52,6 +52,53 @@
   overflow: hidden;
 }
 
+/* .sidebar-item i{
+  margin-right:10px;
+} */
+
+.arrow{
+    transition: transform 0.3s ease;
+}
+
+.arrow.rotate{
+    transform: rotate(-180deg);
+}
+
+.menu-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* .arrow{ */
+    /* margin-left: auto;
+    margin-right: 10px;
+} */
+
+.child-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.menu-item.open .child-menu {
+  /* background: #383939; */
+  max-height: 200px;
+}
+
+.menu-header-pointer {
+  font-weight: bold;
+  background-color: #1f2021;
+  border-top-width: 0.5px;
+    border-top-style: solid;
+    border-top-color: 00080e;
+
+    border-bottom-width: 0.5px;
+    border-bottom-style: solid;
+    border-bottom-color: 00080e;
+}
+
+
 /* ======================================= */
 /* COLUMN 1: CODE PANEL                    */
 /* ======================================= */
@@ -68,6 +115,7 @@
   color: #9cdcfe;
   font-size: 20px;
   line-height: 1.6;
+  /* white-space: pre-wrap; */
 }
 
 .code-line.active {
@@ -91,6 +139,7 @@
 
 .line-content {
   display: inline-block;
+  white-space: pre;
 }
 
 /* Container chứa các block bộ nhớ nằm gọn bên trong stack và heap */
@@ -146,18 +195,6 @@
   margin-bottom: 20px; /* Tạo khoảng cách đẩy các khối nhớ xuống dưới */
 }
 
-@keyframes flashUpdate {
-  0% {
-    background-color: #5d9b5d;
-    transform: scale(1.05);
-  }
-
-  100% {
-    background-color: #2d2d30;
-    transform: scale(1);
-  }
-}
-
 .memory-layout {
   display: flex;
   flex-direction: column;
@@ -183,9 +220,55 @@
 }
 
 /* Áp dụng class này vào ô nhớ nào vừa được cập nhật giá trị */
-/* .memory-updated {
-    animation: flashUpdate 1s ease-out;
-} */
+.memory-updated {
+  animation: flashUpdate 1s ease-out;
+}
+
+@keyframes flashUpdate {
+  0% {
+    background-color: #5d9b5d;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #5d9b5d;
+  }
+  100% {
+    background-color: #2d2d30;
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+/* Hiệu ứng mũi tên tự vẽ */
+.animated-arrow {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawArrow 0.8s ease-in-out forwards;
+}
+
+@keyframes drawArrow {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* CSS Classes thay thế cho Hardcode JS */
+.var-type {
+  color: #9cdcfe;
+}
+.ptr-type {
+  color: #c586c0;
+}
+.heap-type {
+  color: #ffb74d;
+}
+.var-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.ptr-value {
+  font-size: 16px;
+  margin: 10px 0;
+}
 
 /* path { */
 /* stroke-dasharray: 500; */

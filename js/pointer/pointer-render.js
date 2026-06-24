@@ -9,12 +9,14 @@ class PointerRenderer {
     this.explainContainer = document.getElementById("explanation-container");
   }
 
-  // Render code panel
+  // Render phần code với highlight và đánh dấu dòng hiện tại
   renderCode(codeLines, activeIndex) {
     this.codeContainer.innerHTML = codeLines
       .map((line, index) => {
+        // kiểm tra chỗ nào index = với chỗ cần tô sáng thì gáng class là active vào
         const isActive = index === activeIndex ? "active" : "";
 
+        // Sử dụng thư viện ngoài để hightlight code có mầu
         const highlighted = hljs.highlight(line, { language: "cpp" }).value;
 
         return `
@@ -46,6 +48,7 @@ class PointerRenderer {
 
     // Gom các biến thường vào Stack
     memoryState.variables.forEach((v) => {
+      const updateClass = v.isUpdated ? "memory-updated" : "";
       stackHtml += `
         <div class="memory-block" id="var-${v.name}">
             <div style="color: #9CDCFE">${v.type} ${v.name}</div>
@@ -99,7 +102,10 @@ class PointerRenderer {
     html += `</div>`;
 
     this.vizContainer.innerHTML = html;
-    this.drawPointers(memoryState);
+    requestAnimationFrame(() => {
+      this.drawPointers(memoryState);
+    });
+    // this.drawPointers(memoryState);
   }
 
   // Render Phần giải thích
@@ -128,7 +134,6 @@ class PointerRenderer {
   }
 
   // Update the whole UI based on current step data
-  // Update the whole UI based on current step data
   updateUI(lessonData, currentStepIndex) {
     const currentStepData = lessonData.steps[currentStepIndex];
 
@@ -139,11 +144,18 @@ class PointerRenderer {
 
     // Cấu hình code
     this.renderCode(lessonData.codeLines, currentStepData.activeCodeLine);
+
+    // hiển thị vị trí CURRENT LINE
     const currentLineInfo = document.getElementById("current-line-info");
-    currentLineInfo.textContent = `Current Line: ${currentStepData.activeCodeLine + 1}`;
+    currentLineInfo.textContent = `Current Line: ${lessonData.steps.length + 1} / ${currentStepData.activeCodeLine + 1}`;
 
     // LỖI 1 ĐÃ SỬA Ở ĐÂY: Truyền thêm hasHeap vào hàm
     this.renderVisualization(currentStepData.memoryState, hasHeap);
+
+    // Dùng requestAnimationFrame để đợi DOM update xong mới vẽ mũi tên
+    requestAnimationFrame(() => {
+      this.drawPointers(currentStepData.memoryState);
+    });
 
     // Cấu hình giải thích
     this.renderExplanation(lessonData.steps, currentStepIndex);
@@ -219,15 +231,22 @@ class PointerRenderer {
         </defs>
 
         <line
+            class="animated-arrow"
             x1="${x1}"
             y1="${y1}"
             x2="${x2}"
             y2="${y2}"
             stroke="#C586C0"
-            stroke-width="3"
+            stroke-width="2.5"
+            // animation: pulseArrow 10s infinite;
             marker-end="url(#arrowhead)"
         />
         `;
     });
+    // memoryState.pointers.forEach((pointer) => {
+    //   svg.innerHTML += `
+
+    //   `;
+    // });
   }
 }
