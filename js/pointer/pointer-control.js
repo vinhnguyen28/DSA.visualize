@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   // icon sổ trang 
-  const menuItem = document.querySelector(".menu-item");
+  const menuItem = document.querySelector(".menu-header");
   const arrow = document.querySelector(".arrow");
-  const submenu = document.querySelector(".child-menu");
+  const submenu = document.querySelector(".menu-item");
 
   menuItem.addEventListener("click", () => {
     submenu.classList.toggle("active");
