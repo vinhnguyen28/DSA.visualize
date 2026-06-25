@@ -91,9 +91,12 @@
 
   border-bottom-width: 0.5px;
   border-bottom-style: solid;
-  border-bottom-color: 00080e;
+  /* border-bottom-color: #00080e; */
 }
 
+.pointer-center {
+  transform: translateX(75px);
+}
 /* ======================================= */
 /* COLUMN 1: CODE PANEL                    */
 /* ======================================= */
@@ -138,13 +141,24 @@
 }
 
 /* Container chứa các block bộ nhớ nằm gọn bên trong stack và heap */
-.memory-container {
+/* .memory-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-evenly;
-  /* Xóa margin-top: 60px ở đây đi vì .memory-title đã lo việc đẩy xuống rồi */
   width: 100%;
+} */
+
+.memory-container {
+  display: grid;
+
+  grid-template-columns: repeat(2, 113px);
+  /* grid-template-rows: repeat(3, 116px); */
+
+  column-gap: 180px; /* khoảng cách ngang */
+  row-gap: 35px; /* khoảng cách dọc */
+
+  justify-content: center;
 }
 
 /* ======================================= */
@@ -200,19 +214,18 @@
 
 .stack-area,
 .heap-area {
-  flex: 1;
   border: 2px dashed #555;
   padding: 20px;
   position: relative;
 }
-
+/* 
 .stack-area {
-  flex: 1;
+  flex: none;
 }
 
 .heap-area {
-  flex: 2;
-}
+  flex: 1;
+} */
 
 /* Áp dụng class này vào ô nhớ nào vừa được cập nhật giá trị */
 .memory-updated {
@@ -311,7 +324,7 @@
 /* BOTTOM CONTROL PANEL                    */
 /* ======================================= */
 .control-panel {
-  height: 60px;
+  height: 90px;
   background-color: var(--bg-navbar);
   border-top: 1px solid var(--border-color);
   display: flex;
@@ -324,13 +337,16 @@
   background-color: #3c3c3c;
   border: none;
   color: white;
-  padding: 8px 20px;
+  padding: 15px 30px;
   border-radius: 4px;
   cursor: pointer;
+  border-radius: 30px;
+  border: 2px solid rgb(255, 255, 255);
 }
 
 .control-btn:hover {
-  background-color: #007acc;
+  background-color: #db680a;
+  border: 2px solid #db680a;
 }
 
 .step-header {

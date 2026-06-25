@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnPointertoPointer = document.getElementById("btn-PointertoPointer"); // 1.6
 
   const btnDynamic = document.getElementById("btn-new"); // 2.1
+  const btndelete = document.getElementById("btn-delete"); // 2.2
+  const btnMemoryLeak = document.getElementById("btn-MemoryLeak"); //2.3
+  const btnDanglingPointer = document.getElementById("btn-DanglingPointer"); //2.4
 
   /**
    * Cập nhật giao diện dựa trên bước hiện tại và dữ liệu bài học
@@ -86,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isPlaying) {
       btnPlayPause.textContent = "Pause";
       btnPlayPause.classList.remove("btn-primary");
-      btnPlayPause.style.backgroundColor = "#D16969";
+      btnPlayPause.style.backgroundColor = "#ff0000";
 
       playInterval = setInterval(() => {
         if (currentStep < maxSteps) {
@@ -132,8 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     setActiveButton(btnPointer);
 
-    btnPointer.classList.add("active");
-    btnDynamic.classList.remove("active");
+    // btnPointer.classList.add("active");
+    // btnDynamic.classList.remove("active");
 
     currentLesson = lessons.pointer;
 
@@ -145,6 +148,82 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // lession 1.2
+  btnAddressOperator.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnAddressOperator);
+
+    currentLesson = lessons.AddressOperator;
+
+    currentStep = 0;
+
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lession 1.3
+  btnDereference.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnDereference);
+
+    currentLesson = lessons.Dereference;
+    currentStep = 0;
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lesstion 1.4
+  btnPointerAssignment.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnPointerAssignment);
+
+    currentLesson = lessons.PointerAssignment;
+    currentStep = 0;
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lesstion 1.5
+  btnNullPointer.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnNullPointer);
+
+    currentLesson = lessons.NullPointer;
+    currentStep = 0;
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lesstion 1.6
+  btnPointertoPointer.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnPointertoPointer);
+
+    currentLesson = lessons.PointertoPointer;
+    currentStep = 0;
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // ===============================
+  // ======== cấp phát động=========
+  // ===============================
+
+  // lession 2.1
   btnDynamic.addEventListener("click", () => {
     if (isPlaying) {
       togglePlay();
@@ -163,17 +242,14 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCurrentState();
   });
 
-  // lession 1.3
-  btnAddressOperator.addEventListener("click", () => {
+  // lession 2.2
+  btndelete.addEventListener("click", () => {
     if (isPlaying) {
       togglePlay();
     }
-    setActiveButton(btnAddressOperator);
+    setActiveButton(btndelete);
 
-    // btnAddressOperator.classList.add("active");
-    // btnPointer.classList.remove("active");
-
-    currentLesson = lessons.AddressOperator;
+    currentLesson = lessons.delete;
 
     currentStep = 0;
 
@@ -182,13 +258,30 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCurrentState();
   });
 
-  // lession 1.4
-  btnDereference.addEventListener("click", () => {
+  // lession 2.3
+  btnMemoryLeak.addEventListener("click", () => {
     if (isPlaying) {
       togglePlay();
     }
-    setActiveButton(btnDereference);
-    currentLesson = lessons.Dereference;
+    setActiveButton(btnMemoryLeak);
+
+    currentLesson = lessons.MemoryLeak;
+
+    currentStep = 0;
+
+    maxSteps = currentLesson.steps.length - 1;
+
+    renderCurrentState();
+  });
+
+  // lession 2.4
+  btnDanglingPointer.addEventListener("click", () => {
+    if (isPlaying) {
+      togglePlay();
+    }
+    setActiveButton(btnDanglingPointer);
+
+    currentLesson = lessons.DanglingPointer;
 
     currentStep = 0;
 
