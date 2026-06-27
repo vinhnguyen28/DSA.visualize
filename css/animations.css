@@ -1,0 +1,67 @@
+/* ======================================= */
+/* 1. MEMORY UPDATE ANIMATION (Làm nổi bật)*/
+/* ======================================= */
+.memory-updated {
+  /* Tăng thời gian lên 1.5s để hiệu ứng diễn ra từ từ, êm ái */
+  animation: memoryFlash 1.5s ease-in-out forwards !important;
+  z-index: 25 !important;
+}
+
+@keyframes memoryFlash {
+  0% {
+    background-color: var(--bg-panel-light);
+    box-shadow: 0 0 0 transparent;
+  }
+  25% {
+    /* Đẩy độ sáng và màu cam lên cao nhất ở giây 0.37 */
+    background-color: rgba(255, 183, 77, 0.5);
+    box-shadow: 0 0 25px rgba(255, 183, 77, 0.8);
+    border-color: var(--accent-orange);
+  }
+  50% {
+    /* Bắt đầu dịu lại ở giây 0.75 */
+    background-color: rgba(255, 183, 77, 0.2);
+    box-shadow: 0 0 10px rgba(255, 183, 77, 0.4);
+  }
+  100% {
+    /* Giây 1.5: Trả về trạng thái yên tĩnh, màu nền tối như cũ */
+    background-color: var(--bg-panel-light);
+    box-shadow: 0 0 0 transparent;
+    border-color: var(--accent-color);
+  }
+}
+
+/* ======================================= */
+/* 2. ARROW ANIMATION (Dòng chảy dữ liệu)  */
+/* ======================================= */
+.animated-arrow {
+  /* Tạo nét đứt: 8px vạch liền, 6px khoảng trống */
+  stroke-dasharray: 8, 6;
+
+  /* Cho chạy liên tục để thấy hướng đi từ A -> B */
+  animation: flowArrow 0.8s linear infinite;
+}
+
+@keyframes flowArrow {
+  from {
+    /* Trượt đi một đoạn bằng tổng chiều dài 1 chu kỳ (8+6) */
+    stroke-dashoffset: 14;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ======================================= */
+/* 3. VISUAL ENHANCEMENTS (Hiệu ứng nảy)   */
+/* ======================================= */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

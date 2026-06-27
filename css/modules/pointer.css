@@ -1,0 +1,20 @@
+/* ======================================= */
+/* POINTER SPECIFIC STYLES                 */
+/* ======================================= */
+
+/* Dịch chuyển con trỏ cấp 2 sang giữa để vẽ mũi tên không bị chéo */
+.pointer-center {
+  transform: translateX(75px);
+}
+
+/* Định dạng text khi biến chưa khởi tạo (chứa rác) */
+.val-garbage {
+  color: #f44336;
+  font-style: italic;
+}
+
+/* Định dạng text khi con trỏ trỏ vào NULL */
+.val-null {
+  color: var(--text-muted);
+  font-style: italic;
+}
