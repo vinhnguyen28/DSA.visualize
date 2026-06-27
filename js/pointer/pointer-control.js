@@ -58,6 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const renderCurrentState = () => {
     renderer.updateUI(currentLesson, currentStep);
+
+    // tiến độ thực hiện
+    const stepIndicator = document.getElementById("step-indicator");
+    if (stepIndicator) {
+      stepIndicator.textContent = `${currentStep + 1} / ${maxSteps + 1}`;
+    }
   };
 
   // Events
@@ -108,8 +114,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Lắng nghe sự kiện thay đổi kích thước cửa sổ để vẽ lại mũi tên
+  // Lắng nghe sự kiện thay đổi kích thước cửa sổ với Debounce (chống spam trigger)
+  let resizeTimeout;
   window.addEventListener("resize", () => {
-    renderCurrentState();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      renderCurrentState();
+    }, 150); // Chỉ render lại sau khi ngừng kéo thả cửa sổ 150ms
   });
 
   btnPlayPause.addEventListener("click", togglePlay);
@@ -128,168 +139,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     button.classList.add("active");
   }
-  // lession 1.1
-  btnPointer.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
+  // nhận sự kiện để chạy
+  const lessonMapping = {
+    "btn-pointer": lessons.pointer,
+    "btn-AddressOperator": lessons.AddressOperator,
+    "btn-Dereference": lessons.Dereference,
+    "btn-PointerAssignment": lessons.PointerAssignment,
+    "btn-NullPointer": lessons.NullPointer,
+    "btn-PointertoPointer": lessons.PointertoPointer,
+    "btn-new": lessons.new,
+    "btn-delete": lessons.delete,
+    "btn-MemoryLeak": lessons.MemoryLeak,
+    "btn-DanglingPointer": lessons.DanglingPointer,
+  };
+
+  Object.keys(lessonMapping).forEach((btnId) => {
+    const btnElement = document.getElementById(btnId);
+    if (btnElement) {
+      btnElement.addEventListener("click", () => {
+        if (isPlaying) togglePlay();
+        setActiveButton(btnElement);
+
+        currentLesson = lessonMapping[btnId];
+        currentStep = 0;
+        maxSteps = currentLesson.steps.length - 1;
+
+        renderCurrentState();
+      });
     }
-    setActiveButton(btnPointer);
-
-    // btnPointer.classList.add("active");
-    // btnDynamic.classList.remove("active");
-
-    currentLesson = lessons.pointer;
-
-    currentStep = 0;
-
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
   });
 
-  // lession 1.2
-  btnAddressOperator.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
+  // Nhấn phím Mũi tên Trái/Phải để chuyển bước nhanh.
+  document.addEventListener("keydown", (e) => {
+    // Không kích hoạt nếu đang auto-play
+    if (isPlaying) return;
+
+    if (e.key === "ArrowRight") {
+      btnNext.click();
+    } else if (e.key === "ArrowLeft") {
+      btnPrev.click();
     }
-    setActiveButton(btnAddressOperator);
-
-    currentLesson = lessons.AddressOperator;
-
-    currentStep = 0;
-
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
   });
-
-  // lession 1.3
-  btnDereference.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnDereference);
-
-    currentLesson = lessons.Dereference;
-    currentStep = 0;
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // lesstion 1.4
-  btnPointerAssignment.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnPointerAssignment);
-
-    currentLesson = lessons.PointerAssignment;
-    currentStep = 0;
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // lesstion 1.5
-  btnNullPointer.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnNullPointer);
-
-    currentLesson = lessons.NullPointer;
-    currentStep = 0;
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // lesstion 1.6
-  btnPointertoPointer.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnPointertoPointer);
-
-    currentLesson = lessons.PointertoPointer;
-    currentStep = 0;
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // ===============================
-  // ======== cấp phát động=========
-  // ===============================
-
-  // lession 2.1
-  btnDynamic.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnDynamic);
-
-    // btnDynamic.classList.add("active");
-    // btnPointer.classList.remove("active");
-
-    currentLesson = lessons.new;
-
-    currentStep = 0;
-
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // lession 2.2
-  btndelete.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btndelete);
-
-    currentLesson = lessons.delete;
-
-    currentStep = 0;
-
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // lession 2.3
-  btnMemoryLeak.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnMemoryLeak);
-
-    currentLesson = lessons.MemoryLeak;
-
-    currentStep = 0;
-
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // lession 2.4
-  btnDanglingPointer.addEventListener("click", () => {
-    if (isPlaying) {
-      togglePlay();
-    }
-    setActiveButton(btnDanglingPointer);
-
-    currentLesson = lessons.DanglingPointer;
-
-    currentStep = 0;
-
-    maxSteps = currentLesson.steps.length - 1;
-
-    renderCurrentState();
-  });
-
-  // Initial render
-  renderCurrentState();
 });

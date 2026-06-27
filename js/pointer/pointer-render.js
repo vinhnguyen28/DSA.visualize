@@ -27,6 +27,13 @@ class PointerRenderer {
             `;
       })
       .join("");
+
+    requestAnimationFrame(() => {
+      const activeLine = this.codeContainer.querySelector(".code-line.active");
+      if (activeLine) {
+        activeLine.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
   }
 
   // Render Phần mô phỏng bộ nhớ
@@ -48,10 +55,11 @@ class PointerRenderer {
 
     // Gom các biến thường vào Stack
     memoryState.variables.forEach((v) => {
-      // const updateClass = v.isUpdated ? "memory-updated" : "";
+      // Animation nháy sáng khi bị thay đổi
+      const updateClass = v.isUpdated ? "memory-updated" : "";
       stackHtml += `
         <div 
-          class="memory-block" 
+          class="memory-block ${updateClass}" 
           id="var-${v.name}"
           style="
             grid-row:${v.row};
@@ -185,6 +193,11 @@ class PointerRenderer {
             `;
       })
       .join("");
+
+    // tạo scroll cho explanation
+    requestAnimationFrame(() => {
+      this.explainContainer.scrollTop = this.explainContainer.scrollHeight;
+    });
   }
 
   // Update the whole UI based on current step data
@@ -207,10 +220,9 @@ class PointerRenderer {
     this.renderVisualization(currentStepData.memoryState, hasHeap);
 
     // Dùng requestAnimationFrame để đợi DOM update xong mới vẽ mũi tên
-    requestAnimationFrame(() => {
-      this.drawPointers(currentStepData.memoryState);
-    });
-
+    // requestAnimationFrame(() => {
+    //   this.drawPointers(currentStepData.memoryState);
+    // });
     // Cấu hình giải thích
     this.renderExplanation(lessonData.steps, currentStepIndex);
   }
@@ -218,90 +230,81 @@ class PointerRenderer {
   // vẽ mũi tên giữa 2 box với nhau
   drawPointers(memoryState) {
     const svg = document.getElementById("arrow-layer");
-
     if (!svg) return;
-    svg.innerHTML = "";
-    svg.innerHTML += `
-        <defs>
-            <marker
-                id="arrowhead"
-                markerWidth="10"
-                markerHeight="10"
-                refX="8"
-                refY="3"
-                orient="auto">
-                <polygon points="0 0, 10 3, 0 6" fill="#C586C0"/>
-            </marker>
-        </defs>`;
-    // Lấy toạ độ tuyệt đối của thẻ SVG để tính toán chính xác
+
+    // Lấy toạ độ tuyệt đối 1 lần để tối ưu reflow
     const svgRect = svg.getBoundingClientRect();
 
+    // Khởi tạo markup cơ bản
+    let svgContent = `
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#C586C0"/>
+        </marker>
+    </defs>`;
+
     memoryState.pointers.forEach((pointer) => {
-      if (pointer.value === "???") {
-        return;
-      }
+      if (pointer.value === "???" || pointer.pointsTo === "") return;
 
       const from = document.getElementById(`ptr-${pointer.name}`);
+      let to =
+        document.getElementById(`var-${pointer.pointsTo}`) ||
+        document.getElementById(`ptr-${pointer.pointsTo}`) ||
+        document.getElementById(`heap-${pointer.pointsTo}`);
 
-      // Đích đên của mũi tên
-      let to = document.getElementById(`var-${pointer.pointsTo}`);
-
-      if (!to) {
-        to = document.getElementById(`ptr-${pointer.pointsTo}`);
-      }
-
-      if (!to) {
-        to = document.getElementById(`heap-${pointer.pointsTo}`);
-      }
-
-      if (!from || !to) {
-        return;
-      }
+      if (!from || !to) return;
 
       const fromRect = from.getBoundingClientRect();
       const toRect = to.getBoundingClientRect();
 
       let x1, y1, x2, y2;
 
-      // KIỂM TRA VỊ TRÍ TƯƠNG ĐỐI ĐỂ NỐI MŨI TÊN CHÍNH XÁC
+      // Fix Bug-04: Xử lý khi 2 phần tử nằm cùng cột (trường hợp int**)
+      if (Math.abs(fromRect.left - toRect.left) < 10) {
+        // Lệch X ra một chút để mũi tên đi vòng bên ngoài
+        x1 = fromRect.right - svgRect.left;
+        y1 = fromRect.top - svgRect.top + fromRect.height / 2;
+        x2 = toRect.right - svgRect.left;
+        y2 = toRect.top - svgRect.top + toRect.height / 2;
+
+        // SỬA LỖI LỆCH ĐẦU MŨI TÊN Ở ĐÂY:
+        // Dùng C (Curve) vẽ đường cong tới vị trí x2 + 30
+        // Dùng L (Line) vẽ một đường thẳng ngang hoàn toàn từ x2 + 30 tới vị trí x2 + 5
+        // Đoạn thẳng ngang này sẽ ép góc (orient) của marker xoay đúng 180 độ
+        svgContent += `
+        <path class="animated-arrow" 
+              d="M ${x1} ${y1} C ${x1 + 60} ${y1}, ${x2 + 60} ${y2}, ${x2 + 30} ${y2} L ${x2 + 10} ${y2}" 
+              fill="transparent" stroke="#C586C0" stroke-width="2.5" marker-end="url(#arrowhead)"/>`;
+        return;
+      }
+
+      // Các trường hợp khác giữ nguyên logic cũ
       if (fromRect.bottom <= toRect.top) {
-        // TRƯỜNG HỢP 1: Từ Stack xuống Heap (Xếp dọc - Con trỏ ở TRÊN ô nhớ Heap)
         x1 = fromRect.left - svgRect.left + fromRect.width / 2;
         y1 = fromRect.bottom - svgRect.top;
         x2 = toRect.left - svgRect.left + toRect.width / 2;
-        y2 = toRect.top - svgRect.top - 5; // Chừa 5px cho đầu mũi tên tiếp đất đẹp mắt
+        y2 = toRect.top - svgRect.top - 5;
       } else if (fromRect.top >= toRect.bottom) {
-        // TRƯỜNG HỢP 2: Con trỏ nằm ở DƯỚI ô nhớ được trỏ
         x1 = fromRect.left - svgRect.left + fromRect.width / 2;
         y1 = fromRect.top - svgRect.top;
         x2 = toRect.left - svgRect.left + toRect.width / 2;
         y2 = toRect.bottom - svgRect.top + 5;
       } else if (fromRect.left > toRect.left) {
-        // TRƯỜNG HỢP 3: Xếp ngang (Con trỏ nằm bên PHẢI biến - Giống bài cơ bản p và x)
         x1 = fromRect.left - svgRect.left;
         y1 = fromRect.top - svgRect.top + fromRect.height / 2;
         x2 = toRect.right - svgRect.left + 5;
         y2 = toRect.top - svgRect.top + toRect.height / 2;
       } else {
-        // TRƯỜNG HỢP 4: Xếp ngang (Con trỏ nằm bên TRÁI biến)
         x1 = fromRect.right - svgRect.left;
         y1 = fromRect.top - svgRect.top + fromRect.height / 2;
         x2 = toRect.left - svgRect.left - 5;
         y2 = toRect.top - svgRect.top + toRect.height / 2;
       }
 
-      svg.innerHTML += `
-        <line
-            class="animated-arrow"
-            x1="${x1}"
-            y1="${y1}"
-            x2="${x2}"
-            y2="${y2}"
-            stroke="#C586C0"
-            stroke-width="2.5"
-            marker-end="url(#arrowhead)"
-        />
-        `;
+      svgContent += `<line class="animated-arrow" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#C586C0" stroke-width="2.5" marker-end="url(#arrowhead)"/>`;
     });
+
+    // Ghi DOM 1 lần duy nhất để tối ưu hiệu năng
+    svg.innerHTML = svgContent;
   }
 }

@@ -8,7 +8,7 @@ const lessons = {
   // ======= Con trỏ cơ bản ========
   // ===============================
 
-  // ===========[1.2]===========
+  // ===========[1.1]===========
   pointer: {
     codeLines: ["int main()", "{", "   int* p;", "   return 0;", "}"],
     // steps[] : mảng trong js bắt đầu từ 0
@@ -28,31 +28,22 @@ const lessons = {
         explanation:
           "Chương trình tạo một biến con trỏ tên là p và p chưa trỏ đến bất kỳ vùng nhớ nào.",
         memoryState: {
-          variables: [
-            {
-              name: "?",
-              value: "???",
-              address: "",
-              type: "int",
-              row: 2,
-              col: 2,
-            },
-          ],
+          variables: [],
           pointers: [
             {
               name: "p",
               value: "",
               address: "0x200",
-              pointsTo: "?",
+              pointsTo: "",
               row: 2,
               col: 1,
+              center: true,
             },
           ],
           heap: [],
         },
       },
       {
-        stepId: 0,
         activeCodeLine: 3, // "return 0;"
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
         memoryState: {
@@ -123,7 +114,7 @@ const lessons = {
               name: "p",
               value: "???",
               address: "0x200",
-              pointsTo: "x",
+              pointsTo: "",
               row: 2,
               col: 2,
             },
@@ -160,7 +151,6 @@ const lessons = {
         },
       },
       {
-        stepId: 0,
         activeCodeLine: 5, // "*p = 20;"
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
         memoryState: {
@@ -232,7 +222,7 @@ const lessons = {
               name: "p",
               value: "???",
               address: "0x200",
-              pointsTo: "x",
+              pointsTo: "",
               row: 2,
               col: 2,
             },
@@ -278,7 +268,7 @@ const lessons = {
               value: "20",
               address: "0x100",
               type: "int",
-              // isUpdated: true,
+              isUpdated: true,
               row: 2,
               col: 1,
             },
@@ -298,7 +288,6 @@ const lessons = {
       },
 
       {
-        stepId: 0,
         activeCodeLine: 6, // "*p = 20;"
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
         memoryState: {
@@ -312,7 +301,7 @@ const lessons = {
   // ===========[1.4]===========
   PointerAssignment: {
     codeLines: [
-      "int main ()",
+      "int main()",
       "{",
       "   int a = 5;",
       "   int b = 8;",
@@ -323,41 +312,36 @@ const lessons = {
     ],
     steps: [
       {
-        activeCodeLine: 0, // "int x = 10;"
+        activeCodeLine: 0,
         explanation: null,
-        memoryState: {
-          variables: [],
-          variables1: [],
-          pointers: [],
-          heap: [],
-        },
+        memoryState: { variables: [], pointers: [], heap: [] }, // FIX: Đã xóa variables1 thừa
       },
       {
-        activeCodeLine: 2, // "int x = 10;"
+        activeCodeLine: 2,
         explanation: "Tạo biến a trên vùng nhớ Stack và khởi tạo giá trị 5.",
         memoryState: {
           variables: [
             {
               name: "a",
-              value: "10",
+              value: "5",
               address: "0x100",
               type: "int",
               row: 1,
               col: 1,
-            },
+            }, // FIX: value 5
           ],
           pointers: [],
           heap: [],
         },
       },
       {
-        activeCodeLine: 3, // "int* p = &x;"
+        activeCodeLine: 3,
         explanation: "Tạo biến b trên vùng nhớ Stack và khởi tạo giá trị 8.",
         memoryState: {
           variables: [
             {
               name: "a",
-              value: "10",
+              value: "5",
               address: "0x100",
               type: "int",
               row: 1,
@@ -365,27 +349,26 @@ const lessons = {
             },
             {
               name: "b",
-              value: "20",
-              address: "0x100",
+              value: "8",
+              address: "0x400",
               type: "int",
               row: 1,
               col: 2,
-            },
+            }, // FIX: value 8, address 0x400
           ],
           pointers: [],
           heap: [],
         },
       },
-
       {
-        activeCodeLine: 4, // "int* p = &x;"
+        activeCodeLine: 4,
         explanation:
           "Tạo con trỏ p trên Stack và gán địa chỉ của a. Lúc này p đang trỏ đến a.",
         memoryState: {
           variables: [
             {
               name: "a",
-              value: "10",
+              value: "5",
               address: "0x100",
               type: "int",
               row: 1,
@@ -393,8 +376,8 @@ const lessons = {
             },
             {
               name: "b",
-              value: "20",
-              address: "0x100",
+              value: "8",
+              address: "0x400",
               type: "int",
               row: 1,
               col: 2,
@@ -414,16 +397,15 @@ const lessons = {
           heap: [],
         },
       },
-
       {
-        activeCodeLine: 5, // "int* p = &x;"
+        activeCodeLine: 5,
         explanation:
           "Cập nhật p để lưu địa chỉ của b. Từ thời điểm này, p không còn trỏ đến a mà chuyển sang trỏ đến b.",
         memoryState: {
           variables: [
             {
               name: "a",
-              value: "10",
+              value: "5",
               address: "0x100",
               type: "int",
               row: 1,
@@ -431,7 +413,7 @@ const lessons = {
             },
             {
               name: "b",
-              value: "20",
+              value: "8",
               address: "0x400",
               type: "int",
               row: 1,
@@ -452,18 +434,11 @@ const lessons = {
           heap: [],
         },
       },
-
       {
-        stepId: 0,
-        activeCodeLine: 6, // "*p = 20;"
+        activeCodeLine: 6,
         explanation:
           "a và b vẫn giữ nguyên giá trị. Chỉ có địa chỉ lưu trong p thay đổi từ địa chỉ của a sang địa chỉ của b.",
-        memoryState: {
-          variables: [],
-          variables1: [],
-          pointers: [],
-          heap: [],
-        },
+        memoryState: { variables: [], pointers: [], heap: [] },
       },
     ],
   },
@@ -471,10 +446,10 @@ const lessons = {
   // ===========[1.5]===========
   NullPointer: {
     codeLines: [
-      "int main",
+      "int main ()",
       "{",
       "   int* p;",
-      "   p = nullptr",
+      "   p = nullptr;",
       "   return 0;",
       "}",
     ],
@@ -494,23 +469,13 @@ const lessons = {
         explanation:
           "Tạo biến con trỏ p trên vùng nhớ Stack. Ban đầu p chưa được khởi tạo nên chưa trỏ đến vùng nhớ hợp lệ nào.",
         memoryState: {
-          variables: [
-            {
-              name: "?",
-              value: "???",
-              address: "???",
-              type: "int",
-              row: 4,
-              col: 1,
-              center: true,
-            },
-          ],
+          variables: [],
           pointers: [
             {
               name: "p",
-              value: "0x100",
+              value: "???",
               address: "0x200",
-              pointsTo: "?",
+              pointsTo: "",
               row: 2,
               col: 1,
               center: true,
@@ -521,7 +486,7 @@ const lessons = {
       },
       // p = nullptr
       {
-        activeCodeLine: 3, // "int* p = &x;"
+        activeCodeLine: 3, // "p = nullptr"
         explanation:
           "Gán nullptr cho p, cho biết con trỏ không trỏ đến bất kỳ vùng nhớ nào.",
         memoryState: {
@@ -531,7 +496,7 @@ const lessons = {
               name: "p",
               value: "NULL",
               address: "0x200",
-              pointsTo: "x",
+              pointsTo: "",
               row: 2,
               col: 1,
               center: true,
@@ -542,7 +507,6 @@ const lessons = {
       },
       // return 0;
       {
-        stepId: 0,
         activeCodeLine: 4,
         explanation:
           "p có giá trị nullptr, giúp tránh việc con trỏ chứa địa chỉ không xác định và an toàn hơn khi kiểm tra trước khi sử dụng.",
@@ -558,13 +522,13 @@ const lessons = {
   // ===========[1.6]===========
   PointertoPointer: {
     codeLines: [
-      "int main",
+      "int main ()",
       "{",
       "   int value = 10;",
       "   int* p = &value;",
       "   int** pp = &p;",
       "   *p = 20;",
-      "   return 0",
+      "   return 0;",
       "}",
     ],
     steps: [
@@ -702,7 +666,6 @@ const lessons = {
       },
       // return 0;
       {
-        stepId: 0,
         activeCodeLine: 6,
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
         memoryState: {
@@ -827,7 +790,7 @@ const lessons = {
               name: "p",
               value: "0x500",
               address: "0x200",
-              pointsTo: "dyn1",
+              pointsTo: "",
               row: 1,
               col: 1,
               center: true,
@@ -835,7 +798,7 @@ const lessons = {
           ],
           heap: [
             {
-              name: "dyn1",
+              name: "",
               type: "int",
               value: "???",
               address: "???",
@@ -859,7 +822,7 @@ const lessons = {
     codeLines: [
       "int main()",
       "{",
-      "   int* p = nullptn",
+      "   int* p = nullptr;",
       "   p = new int(10);",
       "   delete p;",
       "   return 0;",
@@ -931,9 +894,9 @@ const lessons = {
           pointers: [
             {
               name: "p",
-              value: "0x000",
+              value: "0x500",
               address: "0x200",
-              pointsTo: "???",
+              pointsTo: "",
               row: 1,
               col: 1,
             },
@@ -952,7 +915,7 @@ const lessons = {
       },
       // "return 0;"
       {
-        activeCodeLine: 6,
+        activeCodeLine: 5,
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
         memoryState: { variables: [], pointers: [], heap: [] },
       },
@@ -1120,9 +1083,9 @@ const lessons = {
           pointers: [
             {
               name: "p",
-              value: "?",
+              value: "0x500",
               address: "0x200",
-              pointsTo: "?",
+              pointsTo: "",
               row: 1,
               col: 1,
               center: true,
