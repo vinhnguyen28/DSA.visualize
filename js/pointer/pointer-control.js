@@ -95,7 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isPlaying) {
       btnPlayPause.textContent = "Pause";
       btnPlayPause.classList.remove("btn-primary");
-      btnPlayPause.style.backgroundColor = "#ff0000";
+      btnPlayPause.style.backgroundColor = "var(--accent-orange)"; // Dùng biến CSS của bạn
+      btnPlayPause.style.borderColor = "var(--accent-orange)";
 
       playInterval = setInterval(() => {
         if (currentStep < maxSteps) {
@@ -104,11 +105,12 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           togglePlay(); // Auto pause at end
         }
-      }, 1500); // 1.5s per step
+      }, 1500);
     } else {
       btnPlayPause.textContent = "Play";
       btnPlayPause.classList.add("btn-primary");
       btnPlayPause.style.backgroundColor = "";
+      btnPlayPause.style.borderColor = "";
       clearInterval(playInterval);
     }
   };
@@ -164,7 +166,15 @@ document.addEventListener("DOMContentLoaded", () => {
         currentStep = 0;
         maxSteps = currentLesson.steps.length - 1;
 
-        renderCurrentState();
+        // Xử lý làm mờ Panel
+        const vizContainer = document.getElementById("viz-container");
+        if (vizContainer) vizContainer.style.opacity = "0";
+
+        // Đợi 200ms (khớp với --transition-fast) rồi mới render dữ liệu mới và hiện lại
+        setTimeout(() => {
+          renderCurrentState();
+          if (vizContainer) vizContainer.style.opacity = "1";
+        }, 200);
       });
     }
   });
@@ -180,4 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btnPrev.click();
     }
   });
+
+  // Initial render
+  renderCurrentState();
 });

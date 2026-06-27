@@ -76,7 +76,7 @@
   --blue-20: rgba(0, 122, 255, 0.2);
   --blue-35: rgba(0, 122, 255, 0.35);
 
-  --orange-25: rgba(255, 183, 77, 0.25);
+  --orange-25: rgba(128, 92, 39, 0.25);
 
   --yellow-15: rgba(255, 215, 0, 0.15);
 
@@ -91,9 +91,9 @@
    Memory Animation
   ========================== */
 
-  --memory-flash-1: #ffeb3b;
-  --memory-flash-2: #ffd54f;
-  --memory-flash-3: #fff176;
+  --memory-flash-1: rgba(135, 118, 22, 0.25); /* Sáng vừa đủ */
+  --memory-flash-2: rgba(255, 215, 0, 0.12); /* Mờ đi một nửa */
+  --memory-flash-3: rgba(255, 215, 0, 0.05); /* Gần như tiệp với nền */
 }
 
 /* ======================================= */
@@ -304,10 +304,12 @@
   background: var(--bg-main);
 
   border-right: 1px solid var(--border-color);
+
+  transition: opacity var(--transition-fast);
 }
 
 /* ======================================= */
-/* MEMORY BLOCK                            */
+/* MEMORY BLOCK (cột vùng nhớ)             */
 /* ======================================= */
 
 .memory-block {
@@ -329,6 +331,12 @@
     transform var(--transition-normal),
     background var(--transition-normal),
     border-color var(--transition-normal);
+}
+
+.memory-block:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  z-index: 20; /* Đẩy nó lên trên mũi tên khi hover */
 }
 
 .memory-address {
@@ -389,17 +397,14 @@
   0% {
     background: var(--memory-flash-1);
   }
-
   25% {
     background: var(--memory-flash-2);
   }
-
   50% {
     background: var(--memory-flash-3);
   }
-
   100% {
-    background: inherit;
+    background: var(--bg-panel-light);
   }
 }
 
@@ -419,6 +424,23 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* professional features */
+
+/* .animated-arrow {
+  stroke-dasharray: 8, 4;
+
+  animation: flowArrow 1.2s linear infinite;
+}
+
+@keyframes flowArrow {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+} */
 
 /* ======================================= */
 /* MEMORY TYPE COLORS                      */
@@ -571,13 +593,13 @@
 }
 
 .control-btn:hover {
-  background: var(--btn-hover);
-
+  background: var(--btn-bg);
   border-color: var(--accent-orange);
-
   transform: translateY(-2px);
 
-  box-shadow: 0 6px 16px var(--orange-25);
+  /* Dùng bóng tỏa sáng*/
+  box-shadow: 0 0 15px var(--orange-25);
+  color: var(--accent-orange);
 }
 
 .control-btn:active {
@@ -588,4 +610,143 @@
   outline: none;
 
   box-shadow: 0 0 0 3px var(--blue-35);
+}
+
+/* ======================================= */
+/* 4-STAR: VISUAL ENHANCEMENTS             */
+/* ======================================= */
+
+/* Animation nảy lên khi block mới xuất hiện (#4) */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Phân biệt rõ Stack và Heap (#15) */
+.stack-area {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.heap-area {
+  background: var(--orange-25);
+  border-color: rgba(255, 183, 77, 0.4);
+}
+
+/* Glow effect theo từng loại biến (#14) */
+.memory-var {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 10px var(--blue-20);
+}
+
+.memory-ptr {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(197, 134, 192, 0.15); /* Dùng mã rgba tĩnh vì chưa có biến purple-rgba */
+}
+
+.memory-heap {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 10px var(--orange-25);
+}
+
+/* Text style cho giá trị rác hoặc NULL */
+.val-garbage {
+  color: #f44336;
+  font-style: italic;
+}
+.val-null {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ======================================= */
+/* 3-STAR: DEPTH & INTERACTION             */
+/* ======================================= */
+
+/* Tạo chiều sâu cho các Panel (#22) */
+.code-panel,
+.viz-panel,
+.explain-panel {
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Active State (#7) */
+.lesson-btn {
+  padding-left: 20px;
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast);
+
+  /* THÊM 3 DÒNG NÀY: Ép chữ nằm trên 1 dòng, dài quá thì hiện dấu ... */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-btn.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-left-color: var(--accent-blue);
+  color: var(--accent-blue);
+
+  /* BỎ DÒNG NÀY: font-weight: bold; */
+
+  /* THÊM DÒNG NÀY: Tạo hiệu ứng in đậm giả mà không làm thay đổi kích thước chữ */
+  text-shadow: 0 0 1px var(--accent-blue);
+}
+
+.lesson-btn:hover:not(.active) {
+  padding-left: 25px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Smooth Collapse Menu (#17) */
+.child-menu {
+  max-height: 0;
+  overflow: hidden;
+  /* Dùng cubic-bezier cho đóng mượt hơn */
+  transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+}
+
+.menu-item.open .child-menu {
+  max-height: 400px; /* Setup mức trần vừa đủ thay vì 1000px */
+  /* Ease-in-out khi mở ra */
+  transition: max-height 0.4s ease-in-out;
+}
+
+/* Logo Styling (#20) */
+.nav-left {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.logo-link {
+  text-decoration: none;
+  color: var(
+    --text-primary
+  ); /* Đảm bảo chữ vẫn giữ màu trắng/xám của giao diện */
+  transition: opacity var(--transition-fast);
+}
+
+/* Hiệu ứng sáng/mờ khi hover vào logo để người dùng biết có thể click được */
+.logo-link:hover {
+  opacity: 0.5;
+}
+
+.logo-box {
+  /* background: var(--blue-20); */
+  color: var(--accent-blue);
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  border: 1px solid var(--accent-blue);
+  box-shadow: 0 0 10px var(--blue-20);
 }

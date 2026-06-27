@@ -55,19 +55,27 @@ class PointerRenderer {
 
     // Gom các biến thường vào Stack
     memoryState.variables.forEach((v) => {
-      // Animation nháy sáng khi bị thay đổi
       const updateClass = v.isUpdated ? "memory-updated" : "";
+      const valClass = v.value === "???" ? "val-garbage" : "";
+
+      // THÊM DÒNG NÀY: Chỉ dùng popIn nếu không có update
+      const animStyle = v.isUpdated
+        ? ""
+        : "animation: popIn var(--transition-normal) forwards;";
+
       stackHtml += `
         <div 
-          class="memory-block ${updateClass}" 
+          class="memory-block memory-var ${updateClass}" 
           id="var-${v.name}"
+          title="Variable: ${v.name}&#10;Type: ${v.type}&#10;Address: ${v.address}"
           style="
             grid-row:${v.row};
             grid-column:${v.col};
+            ${animStyle} /* THAY THẾ CHỖ NÀY */
             "
         >
-            <div style="color: #9CDCFE">${v.type} ${v.name}</div>
-            <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">${v.value}</div>
+            <div class="var-type">${v.type} ${v.name}</div>
+            <div class="var-value ${valClass}">${v.value}</div>
             <div class="memory-address">Addr: ${v.address}</div>
         </div>
       `;
@@ -75,18 +83,35 @@ class PointerRenderer {
 
     // Gom các con trỏ vào Stack
     memoryState.pointers.forEach((p) => {
+      const updateClass = p.isUpdated ? "memory-updated" : "";
+
+      // THÊM DÒNG NÀY
+      const animStyle = p.isUpdated
+        ? ""
+        : "animation: popIn var(--transition-normal) forwards;";
+
+      let valClass = "";
+      if (p.value === "???") valClass = "val-garbage";
+      else if (
+        p.value === "NULL" ||
+        p.value === "0x000" ||
+        p.value === "nullptr"
+      )
+        valClass = "val-null";
+
       stackHtml += `
         <div 
-          class="memory-block ${p.center ? "pointer-center" : ""}"
+          class="memory-block memory-ptr ${p.center ? "pointer-center" : ""} ${updateClass}"
           id="ptr-${p.name}"
+          title="Pointer: ${p.name}&#10;Type: int*&#10;Address: ${p.address}&#10;Points to: ${p.pointsTo || "None"}"
           style="
-            border-color: #C586C0;
             grid-row:${p.row};
             grid-column:${p.col};
+            ${animStyle} /* THAY THẾ CHỖ NÀY */
             "
         >
-            <div style="color: #C586C0">int* ${p.name}</div>
-            <div style="font-size: 16px; margin: 10px 0;">${p.value}</div>
+            <div class="ptr-type">int* ${p.name}</div>
+            <div class="ptr-value ${valClass}">${p.value}</div>
             <div class="memory-address">Addr: ${p.address}</div>
         </div>
       `;
@@ -94,17 +119,28 @@ class PointerRenderer {
 
     // Gom vùng nhớ động vào Heap
     memoryState.heap.forEach((cell) => {
+      const updateClass = cell.isUpdated ? "memory-updated" : ""; // Dự phòng cho tương lai
+      const animStyle = cell.isUpdated
+        ? ""
+        : "animation: popIn 0.4s ease forwards;";
+
+      let valClass = "";
+      if (cell.value === "???") valClass = "val-garbage";
+      else if (cell.value === "Released Memory") valClass = "val-null";
+
       heapHtml += `
         <div 
-          class="memory-block heap-block" 
+          class="memory-block memory-heap heap-block ${updateClass}" 
           id="heap-${cell.name}" 
+          title="Dynamic Memory (Heap)&#10;Address: ${cell.address}"
           style="
           grid-row:${cell.row};
           grid-column:${cell.col};
+          ${animStyle} /* THAY THẾ CHỖ NÀY */
           "
         >
-            <div style="color:#FFB74D">${cell.type}</div>
-            <div style="font-size:24px">${cell.value}</div>
+            <div class="heap-type">${cell.type || "unknown"}</div>
+            <div class="var-value ${valClass}">${cell.value}</div>
             <div class="memory-address">Addr: ${cell.address}</div>
         </div>
       `;
@@ -259,7 +295,7 @@ class PointerRenderer {
 
       let x1, y1, x2, y2;
 
-      // Fix Bug-04: Xử lý khi 2 phần tử nằm cùng cột (trường hợp int**)
+      // Fix Bug-04: Xử lý khi 2 phần tử nằm cùng cột (trường hợp int** hoặc cùng nằm trên 1 trục dọc)
       if (Math.abs(fromRect.left - toRect.left) < 10) {
         // Lệch X ra một chút để mũi tên đi vòng bên ngoài
         x1 = fromRect.right - svgRect.left;
@@ -267,37 +303,36 @@ class PointerRenderer {
         x2 = toRect.right - svgRect.left;
         y2 = toRect.top - svgRect.top + toRect.height / 2;
 
-        // SỬA LỖI LỆCH ĐẦU MŨI TÊN Ở ĐÂY:
-        // Dùng C (Curve) vẽ đường cong tới vị trí x2 + 30
-        // Dùng L (Line) vẽ một đường thẳng ngang hoàn toàn từ x2 + 30 tới vị trí x2 + 5
-        // Đoạn thẳng ngang này sẽ ép góc (orient) của marker xoay đúng 180 độ
+        // CÁCH SỬA MỚI (CHỐNG BUG TRÌNH DUYỆT):
+        // C: Uốn cong mượt mà đến vị trí x2 + 25
+        // L: Đâm thẳng ngang 11px vào vị trí x2 + 14
+        // Việc chốt hạ bằng đoạn thẳng L sẽ ép đầu mũi tên xoay ngang tuyệt đối.
         svgContent += `
         <path class="animated-arrow" 
-              d="M ${x1} ${y1} C ${x1 + 60} ${y1}, ${x2 + 60} ${y2}, ${x2 + 30} ${y2} L ${x2 + 10} ${y2}" 
+              d="M ${x1} ${y1} C ${x1 + 75} ${y1}, ${x2 + 75} ${y2}, ${x2 + 25} ${y2} L ${x2 + 14} ${y2}" 
               fill="transparent" stroke="#C586C0" stroke-width="2.5" marker-end="url(#arrowhead)"/>`;
         return;
       }
 
-      // Các trường hợp khác giữ nguyên logic cũ
       if (fromRect.bottom <= toRect.top) {
         x1 = fromRect.left - svgRect.left + fromRect.width / 2;
         y1 = fromRect.bottom - svgRect.top;
         x2 = toRect.left - svgRect.left + toRect.width / 2;
-        y2 = toRect.top - svgRect.top - 5;
+        y2 = toRect.top - svgRect.top - 14; /* Tăng từ 5 lên 14 */
       } else if (fromRect.top >= toRect.bottom) {
         x1 = fromRect.left - svgRect.left + fromRect.width / 2;
         y1 = fromRect.top - svgRect.top;
         x2 = toRect.left - svgRect.left + toRect.width / 2;
-        y2 = toRect.bottom - svgRect.top + 5;
+        y2 = toRect.bottom - svgRect.top + 14; /* Tăng từ 5 lên 14 */
       } else if (fromRect.left > toRect.left) {
         x1 = fromRect.left - svgRect.left;
         y1 = fromRect.top - svgRect.top + fromRect.height / 2;
-        x2 = toRect.right - svgRect.left + 5;
+        x2 = toRect.right - svgRect.left + 14; /* Tăng từ 5 lên 14 */
         y2 = toRect.top - svgRect.top + toRect.height / 2;
       } else {
         x1 = fromRect.right - svgRect.left;
         y1 = fromRect.top - svgRect.top + fromRect.height / 2;
-        x2 = toRect.left - svgRect.left - 5;
+        x2 = toRect.left - svgRect.left - 14; /* Tăng từ 5 lên 14 */
         y2 = toRect.top - svgRect.top + toRect.height / 2;
       }
 

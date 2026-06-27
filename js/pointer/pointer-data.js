@@ -143,6 +143,7 @@ const lessons = {
               value: "0x100",
               address: "0x200",
               pointsTo: "x",
+              isUpdated: true,
               row: 2,
               col: 2,
             },
@@ -174,8 +175,9 @@ const lessons = {
       "}",
     ],
     steps: [
+      // "int main()"
       {
-        activeCodeLine: 0, // "int x = 10;"
+        activeCodeLine: 0,
         explanation: null,
         memoryState: {
           variables: [],
@@ -183,6 +185,7 @@ const lessons = {
           heap: [],
         },
       },
+      // "int x = 10;"
       {
         activeCodeLine: 2,
         explanation:
@@ -202,6 +205,7 @@ const lessons = {
           heap: [],
         },
       },
+      // "int* p;"
       {
         activeCodeLine: 3,
         explanation:
@@ -230,6 +234,7 @@ const lessons = {
           heap: [],
         },
       },
+      // "p = &x;"
       {
         activeCodeLine: 4,
         explanation:
@@ -251,6 +256,7 @@ const lessons = {
               value: "0x100",
               address: "0x200",
               pointsTo: "x",
+              isUpdated: true,
               row: 2,
               col: 2,
             },
@@ -258,8 +264,9 @@ const lessons = {
           heap: [],
         },
       },
+      // "*p = 20;"
       {
-        activeCodeLine: 5, // "*p = 20;"
+        activeCodeLine: 5,
         explanation: "Thông qua p, ghi đè giá trị tại địa chỉ của x thành 20.",
         memoryState: {
           variables: [
@@ -286,9 +293,9 @@ const lessons = {
           heap: [],
         },
       },
-
+      // "return 0;"
       {
-        activeCodeLine: 6, // "*p = 20;"
+        activeCodeLine: 6,
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
         memoryState: {
           variables: [],
@@ -314,7 +321,7 @@ const lessons = {
       {
         activeCodeLine: 0,
         explanation: null,
-        memoryState: { variables: [], pointers: [], heap: [] }, // FIX: Đã xóa variables1 thừa
+        memoryState: { variables: [], pointers: [], heap: [] },
       },
       {
         activeCodeLine: 2,
@@ -328,7 +335,7 @@ const lessons = {
               type: "int",
               row: 1,
               col: 1,
-            }, // FIX: value 5
+            },
           ],
           pointers: [],
           heap: [],
@@ -354,7 +361,7 @@ const lessons = {
               type: "int",
               row: 1,
               col: 2,
-            }, // FIX: value 8, address 0x400
+            },
           ],
           pointers: [],
           heap: [],
@@ -389,6 +396,7 @@ const lessons = {
               value: "0x100",
               address: "0x200",
               pointsTo: "a",
+              isUpdated: true,
               row: 3,
               col: 1,
               center: true,
@@ -426,6 +434,7 @@ const lessons = {
               value: "0x400",
               address: "0x200",
               pointsTo: "b",
+              isUpdated: true,
               row: 3,
               col: 1,
               center: true,
@@ -497,6 +506,7 @@ const lessons = {
               value: "NULL",
               address: "0x200",
               pointsTo: "",
+              isUpdated: true,
               row: 2,
               col: 1,
               center: true,
@@ -583,6 +593,7 @@ const lessons = {
               value: "0x100",
               address: "0x200",
               pointsTo: "value",
+              isUpdated: true,
               row: 1,
               col: 2,
             },
@@ -620,6 +631,7 @@ const lessons = {
               value: "0x200",
               address: "0x500",
               pointsTo: "p",
+              isUpdated: true,
               row: 3,
               col: 2,
             },
@@ -639,6 +651,7 @@ const lessons = {
               value: "20",
               address: "0x100",
               type: "int",
+              isUpdated: true,
               row: 1,
               col: 1,
             },
@@ -772,6 +785,7 @@ const lessons = {
               type: "int",
               value: "10",
               address: "0x500",
+              isUpdated: true,
               row: 2,
               col: 1,
             },
@@ -848,6 +862,7 @@ const lessons = {
               value: "0x000",
               address: "0x200",
               pointsTo: "",
+              isUpdated: true,
               row: 1,
               col: 1,
             },
@@ -955,7 +970,6 @@ const lessons = {
               pointsTo: "?",
               row: 1,
               col: 1,
-              center: true,
             },
           ],
           heap: [
