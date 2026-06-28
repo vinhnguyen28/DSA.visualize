@@ -10,13 +10,14 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  margin-top: 50px; /* Bù cho navbar cố định */
+  margin-top: 64px; /* Bù cho navbar cố định */
 }
+
 .workspace-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 64px); /* <--- SỬA 50px THÀNH 64px */
 }
 .panels-container {
   display: flex;
@@ -27,19 +28,71 @@
 /* ======================================= */
 /* NAVBAR                                  */
 /* ======================================= */
+/* SỬA LẠI CHIỀU CAO NAVBAR CHO VỪA LOGO */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 64px; /* <--- Đổi từ 50px thành 64px */
   background-color: var(--bg-navbar);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 25px; /* Tăng lề 2 bên một chút */
   border-bottom: 1px solid var(--border-color);
   z-index: 1000;
+}
+
+/* ======================================= */
+/* BRAND LOGO GLOBAL (DÙNG CHUNG MỌI TRANG)*/
+/* ======================================= */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent-info), var(--accent-blue));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+}
+
+.brand-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-white);
+  letter-spacing: 0.5px;
+}
+
+.brand-highlight {
+  color: var(--accent-info);
+  font-weight: 400;
+}
+
+/* Nút Back to Home tinh tế */
+.btn-back-home {
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.btn-back-home:hover {
+  color: var(--text-white);
+  background-color: rgba(255, 255, 255, 0.1); /* Nền xám mờ khi hover */
 }
 .nav-left {
   display: flex;
@@ -61,17 +114,7 @@
 .website-name:hover {
   opacity: 0.8;
 }
-.nav-center .search-bar {
-  background-color: #3c3c3c;
-  border: 1px solid transparent;
-  color: var(--text-primary);
-  padding: 5px 15px;
-  border-radius: 4px;
-  width: 300px;
-}
-.nav-center .search-bar:focus {
-  outline: 1px solid var(--accent-color);
-}
+
 .nav-right {
   display: flex;
   align-items: center;
@@ -90,10 +133,15 @@
 .sidebar {
   width: 260px;
   background-color: var(--bg-sidebar);
-  border-right: 1px solid var(--border-color);
+  /* 1. XÓA VIỀN CŨ */
+  border-right: none;
+  /* 2. THÊM BÓNG MỜ ĐỂ TẠO CHIỀU SÂU GIỐNG F8 */
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  padding-top: 15px;
+  z-index: 10; /* Đảm bảo bóng đổ đè lên phần nội dung bên phải */
 }
 
 .sidebar-item {
@@ -193,24 +241,25 @@
   background: var(--bg-panel);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
+
 .viz-panel {
   position: relative;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  display: block; /* Xóa flex/justify/align cũ gây lỗi cắt layout */
   flex: 2;
   padding: 20px;
   background: var(--bg-main);
   border-right: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
-  transition: opacity var(--transition-fast);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+
+  /* BẬT THANH CUỘN: Tự hiện khi danh sách quá dài hoặc màn hình nhỏ */
+  overflow: auto;
 }
 
 /* Code UI */
 .code-block {
   font-family: var(--font-code);
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.6;
   color: #9cdcfe;
 }
@@ -220,9 +269,13 @@
   border-left: 4px solid var(--accent-color);
   transition: all var(--transition-normal);
 }
+.line-content {
+  white-space: pre-wrap; /* Giữ nguyên dấu cách/tab và tự động xuống dòng nếu code quá dài */
+  word-break: break-all; /* Ngăn text tràn ra ngoài khung nếu có chuỗi quá dài */
+}
 .line-number {
   display: inline-block;
-  width: 30px;
+  width: 20px;
   color: var(--text-muted);
   user-select: none;
 }
@@ -296,13 +349,19 @@
 /* ======================================= */
 /* MEMORY GRID & BLOCKS                    */
 /* ======================================= */
+/* 2. Sửa vùng bộ nhớ: Ép thẳng thành 1 hàng ngang (max-content) */
 .memory-layout {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  width: max-content !important;
+  min-width: 100%;
+  height: max-content;
+  min-height: 100%;
   gap: 40px;
+  position: relative;
+  padding-bottom: 20px;
 }
+
 .stack-area,
 .heap-area {
   position: relative;
@@ -310,13 +369,16 @@
   border: 2px dashed var(--border-light);
   border-radius: var(--radius-md);
 }
+
 .stack-area {
   background: rgba(255, 255, 255, 0.02);
 }
+
 .heap-area {
   background: var(--orange-25);
   border-color: rgba(255, 183, 77, 0.4);
 }
+
 .memory-title {
   margin-bottom: 20px;
   text-align: center;
@@ -325,12 +387,15 @@
   letter-spacing: 4px;
   color: var(--text-muted);
 }
+
+/* 3. Sửa Grid chứa Node: Không cho phép tự co bóp */
 .memory-container {
   display: grid;
-  grid-template-columns: repeat(2, 113px);
-  column-gap: 180px;
-  row-gap: 35px;
-  justify-content: center;
+  column-gap: 40px;
+  row-gap: 25px;
+  justify-content: start;
+  padding: 10px 8px;
+  width: max-content; /* Không dùng 100%, chống ép rớt dòng */
 }
 
 .memory-block {
@@ -378,20 +443,369 @@
   color: var(--syntax-heap);
 }
 .var-value {
-  margin: 10px 0;
-  font-size: 24px;
+  margin: 5px 0;
+  font-size: 20px;
   font-weight: bold;
 }
 .ptr-value {
   margin: 10px 0;
   font-size: 16px;
+  font-weight: bold;
 }
 
+/* 4. Sửa SVG Mũi tên: Phủ kín toàn bộ vùng cuộn chứ không chỉ màn hình hiện tại */
 #arrow-layer {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: 5;
   pointer-events: none;
+}
+
+/* 2. THANH TÌM KIẾM CHUẨN YOUTUBE */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 500px; /* Dài hơn một chút cho giống YT */
+  max-width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px; /* Đẩy icon vào trong cho rộng rãi */
+  color: #888;
+  font-size: 1.1rem;
+  pointer-events: none; /* Tránh lỗi không click được vào vùng có icon */
+  z-index: 2;
+}
+
+.search-input {
+  width: 100%;
+  height: 42px;
+  /* Chìa khóa sửa lỗi đè chữ: Lề trái 55px để nhường chỗ cho icon */
+  padding: 10px 20px 10px 55px !important;
+  border-radius: 40px !important; /* Bo tròn tuyệt đối dạng viên thuốc */
+  background-color: #121212 !important; /* Nền xám đen đặc trưng của YouTube Darkmode */
+  border: 1px solid #303030 !important; /* Viền xám mỏng */
+  color: var(--text-white);
+  font-family: var(--font-main);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  background-color: #121212 !important;
+  border-color: #1c62b9 !important; /* Viền chuyển màu xanh Blue nhạt khi click vào */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Xóa CSS shortcut cũ nếu nó còn sót lại */
+.search-shortcut {
+  display: none;
+}
+
+/* ======================================= */
+/* MINI SIDEBAR (Dành riêng cho Trang chủ) */
+/* ======================================= */
+
+/* Thu hẹp chiều rộng của sidebar */
+.sidebar.sidebar-compact {
+  width: 96px;
+  align-items: center; /* Căn giữa các menu theo chiều ngang */
+  padding-top: 20px;
+}
+
+/* Định dạng lại từng nút menu */
+.sidebar-compact .sidebar-item {
+  display: flex;
+  flex-direction: column; /* Ép icon lên trên, chữ xuống dưới */
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  margin: 0 0 12px 0; /* Khoảng cách giữa các nút */
+  border-radius: 16px; /* Bo góc tròn giống F8 */
+  border-left: none; /* Xóa vạch kẻ viền bên trái của style cũ */
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+/* Chỉnh kích thước icon */
+.sidebar-compact .sidebar-item i {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+  width: auto !important; /* Hủy cái inline style 25px cũ */
+  color: inherit !important; /* Đồng bộ màu với chữ */
+}
+
+/* Chỉnh kích thước chữ */
+.sidebar-compact .sidebar-item span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Hiệu ứng khi di chuột (Hover) */
+.sidebar-compact .sidebar-item:hover {
+  background-color: rgba(255, 255, 255, 0.05); /* Nền sáng nhẹ */
+  color: var(--text-white);
+}
+
+/* Trạng thái đang chọn (Active) - Bắt chước F8 trên nền Darkmode */
+.sidebar-compact .sidebar-item.active {
+  background-color: var(--bg-panel-light); /* Màu nền xám nổi lên */
+  color: var(--text-white);
+}
+
+/* ======================================= */
+/* CHÂN TRANG (FOOTER)                     */
+/* ======================================= */
+.main-footer {
+  /* 1. Dùng Margin âm để ép Footer tràn sát ra 2 bên viền và đáy màn hình */
+  margin-top: 80px; /* Cách phần tính năng phía trên 80px */
+  margin-left: -30px; /* Bù trừ lại padding-left 30px của home-content */
+  margin-right: -30px; /* Bù trừ lại padding-right 30px của home-content */
+  margin-bottom: -30px; /* Bù trừ lại padding-bottom 30px của home-content */
+
+  /* 2. Căn chỉnh lại khoảng trống bên trong Footer cho cân đối */
+  padding: 60px 50px 20px 50px;
+
+  /* 3. Đổ màu nền Đen Sâu (Darker) để tách biệt với màu nền #1e1e1e của trang */
+  background-color: #121212;
+
+  /* 4. Thêm một đường viền siêu mỏng ở trên cùng để chia cắt không gian tinh tế */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 250px;
+}
+
+.brand-col .footer-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.contact-info i {
+  color: var(--accent-info);
+  width: 20px;
+}
+
+.footer-heading {
+  color: var(--text-white);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-links a:hover {
+  color: var(--accent-info);
+  transform: translateX(5px); /* Hiệu ứng trượt nhẹ sang phải khi hover */
+}
+
+/* Phần dưới cùng (Copyright & Social) */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  background-color: var(--accent-color);
+  color: var(--text-white);
+  transform: translateY(-3px);
+}
+
+/* ======================================= */
+/* NAVBAR RIGHT ACTIONS (Ghi chú, Link)    */
+/* ======================================= */
+.nav-action-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 20px; /* Cách nút Back to Home một khoảng */
+  transition: color 0.2s ease;
+}
+.nav-action-link:hover {
+  color: var(--text-white);
+}
+.nav-action-link i {
+  font-size: 1.1rem;
+}
+
+/* ======================================= */
+/* BỔ SUNG GIAO DIỆN SIDEBAR               */
+/* ======================================= */
+.sidebar {
+  padding: 0 !important; /* Xóa padding cũ để thiết lập vùng cuộn mới */
+  overflow: hidden !important;
+  transition:
+    width 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* Trạng thái bị thu gọn */
+.sidebar.collapsed {
+  width: 0 !important;
+  opacity: 0;
+  border: none;
+}
+
+/* Vùng tìm kiếm ở đầu */
+.sidebar-search {
+  padding: 20px 15px 10px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.search-wrapper-mini {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-icon-mini {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.search-input-mini {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 8px 10px 8px 35px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input-mini:focus {
+  border-color: var(--accent-info);
+}
+
+/* Vùng chứa bài học (Có thanh cuộn) */
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 15px;
+}
+
+/* Vùng nút bấm ở cuối (Thu gọn) */
+.sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-toggle-sidebar {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.btn-toggle-sidebar:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+}
+
+/* Nút mũi tên lồi ra khi Sidebar bị đóng (Giống F8) */
+.btn-open-sidebar {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  background: var(--bg-sidebar);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: none;
+  color: var(--text-secondary);
+  padding: 12px 15px;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  z-index: 100;
+  display: none; /* Ẩn mặc định */
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+.btn-open-sidebar:hover {
+  color: var(--text-white);
+  background: var(--bg-panel-light);
+}
+.sidebar.collapsed ~ .btn-open-sidebar {
+  display: block; /* Hiện ra khi sidebar bị đóng */
 }

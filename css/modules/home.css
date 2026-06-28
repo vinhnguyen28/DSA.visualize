@@ -61,5 +61,799 @@
 .memory-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  /* object-fit: contain; */
+}
+
+/* ======================================= */
+/* TRẠNG THÁI KHÓA (LOCKED CARD)           */
+/* ======================================= */
+
+/* 1. Làm mờ toàn bộ thẻ một chút để phân biệt với bài đã mở */
+.lesson-card.locked {
+  border-color: #444;
+}
+
+.lesson-card.locked .card-title,
+.lesson-card.locked .card-desc {
+  opacity: 0.6; /* Làm mờ chữ */
+}
+
+/* 2. Setup Thumbnail để chứa ổ khóa */
+.lesson-card.locked .card-thumb {
+  position: relative;
+}
+
+/* 3. Phủ một lớp nền đen mờ (Overlay) lên hình ảnh của bài bị khóa */
+.lesson-card.locked .card-thumb::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* Đen mờ 70% */
+  z-index: 1;
+}
+
+/* 4. Icon ổ khóa nằm giữa Thumbnail */
+.lesson-card.locked .lock-icon {
+  position: absolute;
+  z-index: 2;
+  font-size: 3.5rem;
+  color: rgb(133, 133, 133);
+}
+
+/* 5. Nút Upgrade đặc biệt thay cho nút Learn More */
+.btn-upgrade {
+  background-color: var(--accent-orange);
+  color: #1e1e1e !important; /* Chữ đậm để nổi bật trên nền cam */
+  box-shadow: 0 4px 15px var(--orange-25);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa chữ và icon */
+}
+
+.btn-upgrade:hover {
+  background-color: #ffa726; /* Sáng hơn khi hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 183, 77, 0.5);
+}
+
+/* 4. Icon ổ khóa nằm giữa Thumbnail */
+.lesson-card.locked .lock-icon {
+  position: absolute;
+  top: 50%; /* Đẩy xuống giữa theo chiều dọc */
+  left: 50%; /* Đẩy ra giữa theo chiều ngang */
+  transform: translate(-50%, -50%); /* Căn tâm chính xác 100% */
+  z-index: 2;
+  font-size: 3.5rem;
+  color: rgb(
+    200,
+    200,
+    200
+  ); /* Đổi màu sáng hơn một chút cho nổi bật trên nền đen */
+}
+
+/* ======================================= */
+/* NÂNG CẤP HERO SLIDER (CAROUSEL)         */
+/* ======================================= */
+.hero-slider-container {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Chuyển động mượt mà 0.5s */
+  width: 100%;
+}
+
+.slide {
+  min-width: 100%;
+  height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* SỬA Ở ĐÂY: Xóa padding bên phải (thành 0) để ảnh tràn sát lề phải */
+  padding: 0 0 0 50px;
+  box-sizing: border-box;
+}
+
+/* 2. KHỐI BÊN TRÁI (Chứa Text và Nút) */
+.slide-left {
+  flex: 1; /* Tự động co giãn nhưng... */
+  max-width: 640px; /* ...giới hạn max = 640px giống hệt thông số bạn chụp */
+  z-index: 2; /* Nổi lên trên đề phòng ảnh quá to đè vào */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Căn text và nút sang lề trái */
+}
+
+/* 3. KHỐI BÊN PHẢI (Vùng không gian chứa Ảnh) */
+.slide-right {
+  flex: 1; /* Chiếm toàn bộ phần không gian còn lại */
+  height: 100%; /* Chiếm trọn 270px chiều cao */
+  display: flex;
+  justify-content: flex-end; /* Quan trọng: Ép ảnh nằm sát lề bên phải */
+  align-items: center;
+}
+
+/* Nội dung căn trái giống F8 */
+.slide-content {
+  max-width: 550px;
+  text-align: left;
+}
+
+/* 4. ẢNH HIỂN THỊ (Bên trong khối Phải) */
+.slide-image-wrapper {
+  height: 100%; /* Cố gắng lấy hết chiều cao vùng chứa */
+  width: 70%;
+  align-items: center;
+}
+
+.slide-image {
+  height: 100%;
+  width: 100%; /* Ép ảnh rộng 100% */
+
+  /* CHÌA KHÓA Ở ĐÂY (GIỐNG F8): Cắt cúp ảnh mượt mà, lấp kín không chừa kẽ hở */
+  object-fit: cover;
+
+  /* Ép trọng tâm ảnh sang trái một chút để phần nội dung chính của ảnh hiện rõ */
+  object-position: left center;
+
+  /* Hiệu ứng gradient mờ dần ở cạnh trái để ảnh hòa quyện tuyệt đẹp vào màu nền (Tùy chọn) */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%);
+}
+
+/* ======================================= */
+/* TYPOGRAPHY VÀ NÚT BẤM SLIDE (Sạch sẽ)   */
+/* ======================================= */
+
+.slide .hero-title {
+  font-size: 2.2rem; /* Giảm font nhẹ lại để không bị rớt dòng ở màn nhỏ */
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.slide .hero-subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+/* Class hỗ trợ đổi màu text nhanh */
+.text-white {
+  color: #ffffff !important;
+}
+.text-light {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Các nút bấm (Gom code inline trong HTML ra đây) */
+.btn-slider {
+  border-radius: 30px !important;
+  padding: 10px 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  width: max-content; /* Ép nút ôm vừa đủ chữ */
+}
+
+/* Nút Xanh Dương Đậm (Mặc định) */
+.btn-slider-primary {
+  background: linear-gradient(135deg, var(--accent-info), var(--accent-blue));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+}
+
+/* Nút Trắng (Dùng cho slide Facebook) */
+.btn-slider-white {
+  background: #ffffff;
+  color: var(--accent-blue);
+  border: 2px solid #ffffff;
+}
+
+/* Nút Viền Trắng Xuyên Thấu (Dùng cho Youtube / Khóa Pro) */
+.btn-slider-outline {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.btn-slider:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Style cho từng Slide riêng biệt */
+.slide-1 {
+  background: linear-gradient(
+    145deg,
+    rgba(0, 122, 204, 0.1) 0%,
+    rgba(197, 134, 192, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.slide-2 {
+  background: linear-gradient(to right, #6f00ff, #b200ff); /* Tím chuyển hồng */
+}
+
+.slide-3 {
+  background: linear-gradient(
+    to right,
+    #007aff,
+    #00c6ff
+  ); /* Xanh dương Facebook */
+}
+
+.slide-4 {
+  background: linear-gradient(to right, #ff0055, #ff7700); /* Đỏ cam Youtube */
+}
+
+/* Typo cho Slide */
+.slide .hero-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: var(--text-white);
+}
+
+.slide .hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+/* NÚT ĐIỀU HƯỚNG MŨI TÊN (Trái / Phải) */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: white;
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  opacity: 0; /* Ẩn đi mặc định */
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chỉ hiện mũi tên khi hover chuột vào vùng Slider */
+.hero-slider-container:hover .slider-btn {
+  opacity: 1;
+}
+
+.slider-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-50%) scale(1.1); /* Phóng to nhẹ khi hover */
+}
+
+.prev-btn {
+  left: 15px;
+}
+.next-btn {
+  right: 15px;
+}
+
+/* CÁC CHẤM TRÒN PHÂN TRANG (DOTS) */
+.slider-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 25px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active,
+.dot:hover {
+  background: rgba(255, 255, 255, 0.9); /* Sáng lên khi được chọn */
+  width: 35px; /* Giãn dài ra một chút giống F8 */
+}
+
+/* ======================================= */
+/* NÂNG CẤP THẺ BÀI HỌC (CARDS)            */
+/* ======================================= */
+.lesson-card {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-blue);
+  box-shadow: 0 12px 30px rgba(0, 122, 255, 0.15);
+}
+
+.card-thumb {
+  background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+  font-size: 1.2rem;
+  font-weight: bold;
+  position: relative;
+}
+
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-desc {
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* ======================================= */
+/* BADGES (NHÃN DÁN CƠ BẢN / NÂNG CAO)     */
+/* ======================================= */
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.badge-beginner {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid #4caf50;
+}
+
+.badge-intermediate {
+  background: rgba(0, 122, 204, 0.2);
+  color: var(--accent-info);
+  border: 1px solid var(--accent-info);
+}
+
+/* ======================================= */
+/* NÂNG CẤP NAVBAR (PREMIUM UI)            */
+/* ======================================= */
+.navbar.modern-navbar {
+  height: 64px; /* Cao hơn một chút cho thoáng đãng */
+  padding: 0 25px;
+  background-color: rgba(30, 30, 30, 0.85); /* Nền hơi trong suốt */
+  backdrop-filter: blur(12px); /* Hiệu ứng kính mờ (Glassmorphism) */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 1. BRAND / LOGO */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent-info), var(--accent-blue));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+}
+.brand-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-white);
+  letter-spacing: 0.5px;
+}
+.brand-highlight {
+  color: var(--accent-info);
+  font-weight: 400; /* Nét mỏng tạo sự đối lập sang trọng */
+}
+
+/* 2. THANH TÌM KIẾM CHUYÊN NGHIỆP */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 400px;
+  max-width: 100%;
+}
+.search-icon {
+  position: absolute;
+  left: 15px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.search-input {
+  width: 100%;
+  padding: 10px 45px 10px 40px;
+  border-radius: 30px; /* Bo tròn hoàn toàn */
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+.search-input:focus {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-color: var(--accent-info);
+  box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.15); /* Viền sáng khi click */
+}
+.search-shortcut {
+  position: absolute;
+  right: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: bold;
+  pointer-events: none; /* Không cản trở việc click vào input */
+}
+
+/* 3. NÚT BẤM ACTION */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: 0.2s;
+  font-size: 0.95rem;
+}
+.btn-ghost:hover {
+  color: var(--text-white);
+  background: rgba(255, 255, 255, 0.1);
+}
+.btn-gradient {
+  background: linear-gradient(90deg, var(--accent-info), var(--accent-blue));
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 9px 22px;
+  border-radius: 25px; /* Nút hình viên thuốc */
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+  transition: 0.3s;
+  font-size: 0.95rem;
+}
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.5);
+}
+
+/* 4. CHUÔNG THÔNG BÁO & AVATAR */
+.nav-icon-btn {
+  position: relative;
+  color: var(--text-secondary);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: 0.2s;
+  padding: 5px;
+}
+.nav-icon-btn:hover {
+  color: var(--text-white);
+}
+.notify-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 9px;
+  height: 9px;
+  background-color: var(--accent-orange);
+  border-radius: 50%;
+  border: 2px solid var(--bg-navbar); /* Tạo viền cắt khối */
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+.avatar-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.3s;
+  object-fit: cover;
+}
+.avatar-img:hover {
+  border-color: var(--accent-info);
+  transform: scale(1.05);
+}
+
+/* ======================================= */
+/* NÚT BẤM CUTE & HIỆN ĐẠI                 */
+/* ======================================= */
+.lesson-card .btn-primary {
+  border-radius: 30px !important; /* Bo tròn tuyệt đối */
+  padding: 10px 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-info), var(--accent-blue));
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+  transition: all 0.3s ease;
+
+  /* CÁC THUỘC TÍNH MỚI ĐỂ ÉP NÚT ÔM CHỮ */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start; /* Chặn kéo giãn chiều ngang, căn sang trái */
+  width: max-content; /* Kích thước ôm vừa đủ chữ + padding */
+}
+
+.lesson-card .btn-primary:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4);
+}
+
+.lesson-card .btn-upgrade {
+  border-radius: 30px !important;
+  padding: 10px 24px;
+
+  /* CÁC THUỘC TÍNH MỚI ĐỂ ÉP NÚT ÔM CHỮ */
+  align-self: flex-start; /* Chặn kéo giãn chiều ngang, căn sang trái */
+  width: max-content;
+}
+
+/* Đổi con trỏ chuột cho toàn bộ thẻ card để báo hiệu có thể click */
+.lesson-card {
+  cursor: pointer;
+}
+
+/* ======================================= */
+/* HIỆU ỨNG POPUP MODAL (CHUẨN FACEBOOK)   */
+/* ======================================= */
+.course-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75); /* Đen đậm hơn FB một chút để tập trung */
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.course-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.course-modal-content {
+  background: #242526; /* Màu xám Facebook Dark Mode */
+  width: 90%;
+  max-width: 600px; /* Tăng chiều rộng lên 600px cho rộng rãi */
+  border-radius: 12px;
+  position: relative;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.course-modal-overlay.active .course-modal-content {
+  transform: translateY(0) scale(1);
+}
+
+/* Nút X ở góc được bo tròn giống Facebook */
+.close-modal-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  background: #3a3b3c; /* Nền tròn xám */
+  border-radius: 50%;
+  border: none;
+  color: #e4e6eb;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-modal-btn:hover {
+  background: #4e4f50;
+}
+
+/* Header có đường kẻ ngang giống hệt bài viết FB */
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #3e4042; /* Đường kẻ ngang */
+  text-align: center;
+}
+.modal-header h2 {
+  font-size: 1.4rem;
+  color: #e4e6eb;
+  margin: 0;
+}
+
+/* Body chứa Text và List */
+.modal-body {
+  padding: 24px;
+}
+.modal-body p {
+  line-height: 1.6;
+  color: #b0b3b8;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+.course-features {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+.course-features li {
+  margin-bottom: 14px;
+  color: #e4e6eb;
+  display: flex;
+  align-items: flex-start; /* Để icon thẳng hàng với text nếu text rớt dòng */
+  gap: 12px;
+  font-size: 0.95rem;
+}
+.course-features li i {
+  color: var(--accent-info);
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+/* Footer chứa Nút Action */
+.modal-footer {
+  padding: 16px 24px 24px 24px;
+  text-align: right;
+}
+
+/* ======================================= */
+/* TÍNH NĂNG NỔI BẬT (FEATURES GRID)       */
+/* ======================================= */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-info);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: var(--accent-info);
+  margin-bottom: 20px;
+}
+
+.feature-item h3 {
+  font-size: 1.2rem;
+  color: var(--text-white);
+  margin-bottom: 12px;
+}
+
+.feature-item p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ======================================= */
+/* F8 STYLE EXTENSIONS (PRO & VIEW MORE)   */
+/* ======================================= */
+
+/* Nhãn MỚI màu xanh dương giống hệt F8 */
+.badge-pro {
+  background-color: #1473e6;
+  color: white;
+  font-size: 0.65rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Icon vương miện nhỏ ở góc trái của thẻ PRO */
+.badge-crown {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #ffb74d, #f57c00);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(245, 124, 0, 0.4);
+}
+
+/* Khu vực chứa nút Xem Thêm */
+.view-more-container {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+/* Nút Xem thêm (Viền cam, nền trong suốt) */
+.btn-view-more {
+  background: transparent;
+  color: var(--accent-orange);
+  border: 1px solid var(--accent-orange);
+  border-radius: 30px;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.btn-view-more:hover {
+  background: rgba(255, 183, 77, 0.1);
+  box-shadow: 0 4px 15px var(--orange-25);
 }

@@ -1,0 +1,104 @@
+/* =========================================================
+   COMING SOON LAYOUT (Căn giữa tuyệt đối trên vùng hiển thị)
+   ========================================================= */
+.coming-soon-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: var(--bg-main);
+}
+
+.coming-soon-box {
+  text-align: center;
+  max-width: 500px;
+  padding: 40px;
+  background: linear-gradient(
+    145deg,
+    rgba(37, 37, 38, 0.6) 0%,
+    rgba(45, 45, 48, 0.4) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Icon đồng hồ cát lớn */
+.coming-soon-icon {
+  font-size: 4rem;
+  color: var(--accent-orange);
+  margin-bottom: 20px;
+}
+
+/* Hiệu ứng hoạt ảnh nhấp nháy chậm cho icon */
+.pulse-animation {
+  animation: iconPulse 2s infinite alternate ease-in-out;
+}
+
+@keyframes iconPulse {
+  from {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(255, 183, 77, 0.2));
+  }
+  to {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 20px rgba(255, 183, 77, 0.6));
+  }
+}
+
+/* Tiêu đề & chữ mô tả */
+.coming-soon-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--text-white);
+  letter-spacing: 1px;
+}
+
+.coming-soon-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+/* Nhãn trạng thái đang xử lý */
+.coming-soon-status {
+  margin-bottom: 30px;
+}
+
+.status-tag {
+  background: rgba(255, 183, 77, 0.1);
+  color: var(--accent-orange);
+  border: 1px solid rgba(255, 183, 77, 0.2);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Nút quay lại trang chủ mượt mà */
+.btn-back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-white);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  transition: all 0.2s ease;
+}
+
+.btn-back-home:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 15px var(--blue-20);
+  transform: translateY(-2px);
+}

@@ -1,8 +1,125 @@
-.coming-soon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  color: #666;
+/* =========================================================
+   THIẾT KẾ LẠI BOX NODE CHO DANH SÁCH LIÊN KẾT ĐƠN
+   ========================================================= */
+
+/* 1. Tổng thể box Node: Rộng hơn, dùng flex để chia 3 tầng */
+.memory-node {
+  width: 120px !important; /* Rộng ra để "struct Node" không bị rớt dòng */
+  min-width: 120px !important;
+  height: 120px !important;
+  padding: 0 !important; /* Xóa padding mặc định để tự chia layout */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden; /* Giữ các góc bo tròn đẹp mắt */
+}
+
+/* 2. Tầng 1: Tiêu đề "struct Node" */
+.memory-node .heap-type {
+  white-space: nowrap !important; /* Ép trên 1 hàng */
+  font-size: 1rem !important;
+  padding: 8px 0;
+  text-align: center;
+}
+
+/* 3. Tầng 2: Vùng chia 2 ngăn (Data và Next) */
+.node-compartments {
+  display: flex;
+  flex-grow: 1; /* Chiếm toàn bộ khoảng trống ở giữa */
+  border-top: 1px solid var(--border-color, #555); /* Đường kẻ ngăn với struct Node */
+  border-bottom: 1px solid var(--border-color, #555); /* Đường kẻ ngăn với Addr */
+}
+
+/* Định dạng từng ngăn */
+.node-data,
+.node-next {
+  flex: 1; /* Chia đôi 50/50 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Vạch kẻ chia đôi 2 ngăn */
+.node-data {
+  border-right: 1px solid var(--border-color, #555);
+}
+
+/* Chữ "data" và "next" nhỏ màu xám */
+.node-label {
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 3px;
+}
+
+/* 4. Giảm kích thước chữ bên trong (Số 5 và chữ NULL) */
+.memory-node .var-value {
+  font-size: 0.95rem !important; /* Nhỏ hơn so với giá trị mặc định */
+}
+
+.memory-node .val-null {
+  font-size: 1.1rem !important;
+  font-style: normal !important; /* Xóa in nghiêng */
+  letter-spacing: 1px;
+  color: #888 !important; /* Chữ NULL hơi mờ để phân biệt với Data */
+}
+
+/* 5. Tầng 3: Dòng địa chỉ dưới cùng */
+.node-address {
+  position: static !important; /* Hủy position absolute mặc định */
+  width: 100%;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.8rem !important;
+  white-space: nowrap !important; /* Ép "Addr: 0x500" trên 1 hàng */
+  color: #e67e22; /* Màu cam nổi bật (có thể sửa lại theo theme của bạn) */
+  font-family: "Courier New", Courier, monospace; /* Font code cho địa chỉ */
+}
+
+/* Sửa nhẹ box Pointer trên Stack để cao bằng/tương đồng */
+.memory-ptr {
+  min-height: 100px !important;
+}
+
+/* =========================================================
+   THIẾT KẾ LẠI BOX POINTER BÊN STACK CHO ĐỒNG BỘ
+   ========================================================= */
+.memory-ptr {
+  width: 120px !important; /* Chiều rộng cố định (nhỏ hơn Node một chút cho đẹp) */
+  min-width: 120px !important;
+  height: 120px !important; /* Chiều cao tương đương để tạo sự cân đối */
+  padding: 0 !important; /* Xóa padding cũ để tự chia tầng */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden; /* Giữ các góc bo tròn không bị lem */
+}
+
+/* Tầng 1: Tiêu đề con trỏ (Ví dụ: Node* newNode) */
+.memory-ptr .ptr-type {
+  font-size: 0.9rem !important;
+  padding: 8px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color, #555); /* Đường kẻ ngăn tầng */
+}
+
+/* Tầng 2: Vùng hiển thị giá trị ở giữa */
+.memory-ptr .ptr-value {
+  flex-grow: 1; /* Chiếm toàn bộ không gian ở giữa */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem !important;
+}
+
+/* Tầng 3: Dòng địa chỉ dưới cùng của con trỏ */
+.memory-ptr .memory-address {
+  position: static !important; /* Hủy vị trí tuyệt đối (absolute) cũ */
+  width: 100%;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.75rem !important;
+  color: #888;
+  border-top: 1px solid var(--border-color, #555); /* Đường kẻ trên dòng địa chỉ */
+  font-family: "Courier New", Courier, monospace;
 }

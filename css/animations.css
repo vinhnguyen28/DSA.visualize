@@ -34,20 +34,39 @@
 /* ======================================= */
 /* 2. ARROW ANIMATION (Dòng chảy dữ liệu)  */
 /* ======================================= */
-.animated-arrow {
-  /* Tạo nét đứt: 8px vạch liền, 6px khoảng trống */
+/* nét đứt */
+/* .animated-arrow {
   stroke-dasharray: 8, 6;
-
-  /* Cho chạy liên tục để thấy hướng đi từ A -> B */
   animation: flowArrow 0.8s linear infinite;
 }
 
 @keyframes flowArrow {
   from {
-    /* Trượt đi một đoạn bằng tổng chiều dài 1 chu kỳ (8+6) */
     stroke-dashoffset: 14;
   }
   to {
+    stroke-dashoffset: 0;
+  }
+} */
+/* nét liền  */
+.animated-arrow {
+  /* Thay vì nét đứt 8,6. Ta đặt 1 nét liền khổng lồ dài 1000px (đủ bao trùm chiều dài mọi mũi tên) */
+  stroke-dasharray: 1000;
+
+  /* Đẩy nét liền đó ra khỏi màn hình (tàng hình) */
+  stroke-dashoffset: 1000;
+
+  /* Chạy hiệu ứng vẽ từ từ trong 0.6 giây, giữ nguyên trạng thái khi vẽ xong (forwards) */
+  animation: drawArrow 3s ease-out forwards;
+}
+
+@keyframes drawArrow {
+  from {
+    /* Trạng thái bắt đầu: Mũi tên bị lùi lại 1000px (chưa vẽ) */
+    stroke-dashoffset: 1000;
+  }
+  to {
+    /* Trạng thái kết thúc: Trượt giá trị về 0 để lộ ra nét liền kéo dài từ Box 1 tới Box 2 */
     stroke-dashoffset: 0;
   }
 }
@@ -63,5 +82,27 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* ======================================= */
+/* 4. MEMORY FOCUS ANIMATION (Đang duyệt)  */
+/* ======================================= */
+.memory-focused {
+  /* Đổi màu viền và nền sang màu Xanh lơ (Accent Info) để khác với màu cam Update */
+  border-color: var(--accent-info) !important;
+  background-color: rgba(79, 195, 247, 0.15) !important;
+
+  /* Tạo hiệu ứng sáng nhấp nháy liên tục (pulse) vô hạn */
+  animation: focusPulse 1.2s infinite alternate ease-in-out !important;
+  z-index: 25 !important;
+}
+
+@keyframes focusPulse {
+  from {
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.4);
+  }
+  to {
+    box-shadow: 0 0 22px rgba(79, 195, 247, 0.9);
   }
 }

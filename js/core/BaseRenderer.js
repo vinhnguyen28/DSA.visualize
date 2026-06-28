@@ -47,7 +47,12 @@ class BaseRenderer {
       .join("");
 
     requestAnimationFrame(() => {
-      this.explainContainer.scrollTop = this.explainContainer.scrollHeight;
+      const latestStep = this.explainContainer.querySelector(
+        ".step-card.latest-step",
+      );
+      if (latestStep) {
+        latestStep.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     });
   }
 
@@ -56,8 +61,50 @@ class BaseRenderer {
     console.warn("Lớp con chưa ghi đè hàm renderVisualization!");
   }
 
+  // ==========================================
+  // HÀM VẼ GIAO DIỆN KHÓA (CÓ NÚT UPGRADE)
+  // ==========================================
+  renderLockedUI() {
+    // Dùng clamp để UI tự động to nhỏ tỉ lệ theo kích thước màn hình
+    const lockHtml = `
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; min-height: 250px; padding: 20px;">
+        <i class="fa-solid fa-lock" style="font-size: clamp(80px, 12vw, 160px); color: rgb(133, 133, 133); margin-bottom: 25px; opacity: 0.6;"></i>
+        
+        <div style="font-size: clamp(20px, 2.5vw, 28px); font-weight: bold; color: rgb(133, 133, 133); letter-spacing: 6px; margin-bottom: 30px; opacity: 0.6;">
+          UPGRADE
+        </div>
+        
+        <a href="#" 
+           style="display: inline-flex; align-items: center; justify-content: center; padding: 12px 32px; font-size: 16px; font-weight: bold; font-family: var(--font-main); color: #1e1e1e; background-color: var(--accent-orange); text-decoration: none; border-radius: var(--radius-pill); box-shadow: 0 4px 15px var(--orange-25); transition: all 0.3s ease; cursor: pointer;"
+           onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 183, 77, 0.4)';" 
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px var(--orange-25)';">
+           <i class="fa-solid fa-crown" style="margin-right: 8px;"></i> Unlock Premium
+        </a>
+      </div>
+    `;
+
+    // Nhét UI ổ khóa và nút bấm vào cả 3 panel
+    if (this.codeContainer) this.codeContainer.innerHTML = lockHtml;
+    if (this.vizContainer) this.vizContainer.innerHTML = lockHtml;
+    if (this.explainContainer) this.explainContainer.innerHTML = lockHtml;
+
+    // Đổi text dòng hiển thị Line
+    const currentLineInfo = document.getElementById("current-line-info");
+    if (currentLineInfo) {
+      currentLineInfo.textContent = "PREMIUM FEATURE";
+    }
+  }
   // 4. Update UI tổng thể (DÙNG CHUNG luồng chạy)
   updateUI(lessonData, currentStepIndex) {
+    // KIỂM TRA NẾU BÀI HỌC BỊ KHÓA THÌ VẼ Ổ KHÓA RỒI DỪNG LUÔN
+    if (lessonData.isLocked) {
+      this.renderLockedUI();
+      return;
+    }
+
+    // Đề phòng trường hợp quên gắn cờ isLocked nhưng data bị rỗng
+    if (!lessonData.steps || lessonData.steps.length === 0) return;
+
     const currentStepData = lessonData.steps[currentStepIndex];
     const hasHeap = lessonData.steps.some(
       (step) => step.memoryState.heap && step.memoryState.heap.length > 0,
@@ -72,7 +119,7 @@ class BaseRenderer {
       currentLineInfo.textContent = `Current Line: ${currentStepData.activeCodeLine + 1} / ${lessonData.codeLines.length - 1}`;
     }
 
-    // Gọi hàm vẽ Visualization (tùy thuộc vào việc đang dùng Pointer, Tree hay List)
+    // Gọi hàm vẽ Visualization
     this.renderVisualization(currentStepData.memoryState, hasHeap);
 
     // Vẽ giải thích

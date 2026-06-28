@@ -8,60 +8,74 @@ class VisualizerController {
     this.maxSteps = 0;
     this.isPlaying = false;
     this.playInterval = null;
-    this.speed = 1500; // Tốc độ chạy auto mặc định (1.5s)
+    this.speed = 1500;
 
-    // Lấy các DOM elements ở thanh điều khiển (Control Panel)
     this.btnNext = document.getElementById("btn-next");
     this.btnPrev = document.getElementById("btn-prev");
     this.btnReset = document.getElementById("btn-reset");
     this.btnPlayPause = document.getElementById("btn-play-pause");
     this.stepIndicator = document.getElementById("step-indicator");
 
-    this.bindEvents(); // Gắn các sự kiện click ngay khi khởi tạo
+    this.bindEvents();
   }
 
-  // Hàm nạp bài học mới
   loadLesson(lessonData) {
-    // Nếu đang chạy auto thì dừng lại
     if (this.isPlaying) this.togglePlay();
 
     this.currentLesson = lessonData;
     this.currentStep = 0;
-    this.maxSteps = lessonData.steps.length - 1;
 
-    // Hiệu ứng mờ Panel khi chuyển bài
+    // Nếu bị khóa hoặc chưa có data -> maxStep = 0
+    if (
+      lessonData.isLocked ||
+      !lessonData.steps ||
+      lessonData.steps.length === 0
+    ) {
+      this.maxSteps = 0;
+    } else {
+      this.maxSteps = lessonData.steps.length - 1;
+    }
+
     const vizContainer = document.getElementById("viz-container");
     if (vizContainer) vizContainer.style.opacity = "0";
 
     setTimeout(() => {
       this.renderCurrentState();
       if (vizContainer) vizContainer.style.opacity = "1";
-    }, 200); // Khớp với transition trong CSS
+    }, 200);
   }
 
-  // Hàm vẽ trạng thái hiện tại
   renderCurrentState() {
     if (!this.currentLesson) return;
 
-    // Gọi đến BaseRenderer để vẽ giao diện
     this.renderer.updateUI(this.currentLesson, this.currentStep);
 
-    // Cập nhật text số bước tiến độ (VD: 1/5)
+    // Cập nhật thanh tiến độ
     if (this.stepIndicator) {
-      this.stepIndicator.textContent = `${this.currentStep + 1} / ${this.maxSteps + 1}`;
+      if (this.currentLesson.isLocked) {
+        this.stepIndicator.textContent = "LOCKED";
+      } else {
+        this.stepIndicator.textContent = `${this.currentStep + 1} / ${this.maxSteps + 1}`;
+      }
     }
   }
 
   nextStep() {
+    // Chặn không cho Next nếu bài bị khóa
+    if (this.currentLesson && this.currentLesson.isLocked) return;
+
     if (this.currentStep < this.maxSteps) {
       this.currentStep++;
       this.renderCurrentState();
     } else if (this.isPlaying) {
-      this.togglePlay(); // Hết bài thì tự động Pause
+      this.togglePlay();
     }
   }
 
   prevStep() {
+    // Chặn không cho Prev nếu bài bị khóa
+    if (this.currentLesson && this.currentLesson.isLocked) return;
+
     if (this.currentStep > 0) {
       this.currentStep--;
       this.renderCurrentState();
@@ -75,6 +89,9 @@ class VisualizerController {
   }
 
   togglePlay() {
+    // Chặn không cho Auto Play nếu bài bị khóa
+    if (this.currentLesson && this.currentLesson.isLocked) return;
+
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       this.btnPlayPause.textContent = "Pause";
@@ -94,7 +111,6 @@ class VisualizerController {
     }
   }
 
-  // Gắn các sự kiện cho nút bấm và bàn phím
   bindEvents() {
     if (this.btnNext)
       this.btnNext.addEventListener("click", () => this.nextStep());
@@ -105,14 +121,12 @@ class VisualizerController {
     if (this.btnPlayPause)
       this.btnPlayPause.addEventListener("click", () => this.togglePlay());
 
-    // Nhấn phím Mũi tên Trái/Phải để chuyển bước nhanh
     document.addEventListener("keydown", (e) => {
       if (this.isPlaying) return;
       if (e.key === "ArrowRight") this.nextStep();
       else if (e.key === "ArrowLeft") this.prevStep();
     });
 
-    // Lắng nghe resize cửa sổ để vẽ lại mũi tên (Debounce chống giật)
     let resizeTimeout;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimeout);

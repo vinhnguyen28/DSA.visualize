@@ -4,58 +4,210 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DSA Visualizer - Home</title>
+    <link rel="stylesheet" href="./assets/icons/css/all.min.css" />
     <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./css/components.css" />
-    <link rel="stylesheet" href="./css/modules/home.css" /> 
-  </head>
+    <link rel="stylesheet" href="./css/modules/home.css" />
   </head>
 
   <body>
     <div class="app-container">
-      <nav class="navbar">
+      <nav class="navbar modern-navbar">
+        <!-- TODO: Phần logo -->
         <div class="nav-left">
-          <span class="logo"></span>
-          <a href="./index.html" class="website-name">DSA.Visualizer</a>
+          <a href="./index.html" class="brand-link">
+            <div class="brand-logo">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <span class="brand-name"
+              >DSA<span class="brand-highlight">.Visualizer</span></span
+            >
+          </a>
         </div>
+        <!-- TODO: Thanh tìm kiếm -->
         <div class="nav-center">
-          <input
-            type="text"
-            class="search-bar"
-            placeholder="Search algorithms, structures..."
-          />
+          <div class="search-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input
+              type="text"
+              class="search-bar search-input"
+              placeholder="Search algorithms, structures..."
+            />
+          </div>
         </div>
+
+        <!-- TODO: login signup - avata  -->
         <div class="nav-right">
-          <button class="btn">Login</button>
-          <button class="btn btn-primary">Sign Up</button>
-          <div class="avatar-placeholder"></div>
-      </div>
+          <button class="btn-ghost">Log in</button>
+          <button class="btn-gradient">Sign up</button>
+
+          <div class="nav-icon-btn">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notify-badge"></span>
+          </div>
+
+          <div class="user-profile">
+            <img
+              src="https://ui-avatars.com/api/?name=Code+Ninja&background=0D8ABC&color=fff&bold=true"
+              alt="User"
+              class="avatar-img"
+            />
+          </div>
+        </div>
       </nav>
       <div class="main-wrapper">
         <!-- siderbar menu -->
-        <aside class="sidebar">
+        <aside class="sidebar sidebar-compact">
           <div class="sidebar-menu">
-            <a href="#" class="sidebar-item active"> Home</a>
-            <a href="./pages/pointer.html" class="sidebar-item"> Pointer</a>
-            <a href="./pages/linkedlist.html" class="sidebar-item">
-              Linked List</a
-            >
-            <a href="./pages/doublylist.html" class="sidebar-item"
-              >Doubly Linked List</a
-            >
-            <a href="./pages/tree.html" class="sidebar-item"> Tree</a>
-            <a href="./pages/graph.html" class="sidebar-item"> Graph</a>
-            <a href="./pages/sorting.html" class="sidebar-item"> Sorting</a>
-            <a href="#" class="sidebar-item"> Settings</a>
+            <a href="./index.html" class="sidebar-item active">
+              <i class="fa-solid fa-house"></i>
+              <span>Trang chủ</span>
+            </a>
+
+            <a href="./pages/roadmap.html" class="sidebar-item">
+              <i class="fa-solid fa-road"></i>
+              <span>Lộ trình</span>
+            </a>
+
+            <a href="./pages/articles.html" class="sidebar-item">
+              <i class="fa-solid fa-newspaper"></i>
+              <span>Bài viết</span>
+            </a>
+
+            <a href="./pages/qa.html" class="sidebar-item">
+              <i class="fa-solid fa-comments"></i>
+              <span>Hỏi đáp</span>
+            </a>
           </div>
         </aside>
         <main class="home-content">
-          <h1 class="home-title">Data Structures & Algorithms</h1>
-          <!-- phần thẻ ở trang chính -->
+          <div class="hero-slider-container">
+            <div class="slider-track" id="sliderTrack">
+              <div class="slide slide-1">
+                <div class="slide-left">
+                  <h1 class="hero-title">
+                    Master <span class="text-gradient">Data Structures</span>
+                  </h1>
+                  <p class="hero-subtitle">
+                    Nền tảng trực quan hóa thuật toán và cấu trúc dữ liệu. Hiểu
+                    sâu bản chất bộ nhớ Stack/Heap trong C++.
+                  </p>
+                  <button class="btn btn-slider btn-slider-primary">
+                    HỌC THỬ MIỄN PHÍ
+                  </button>
+                </div>
+
+                <div class="slide-right">
+                  <a href="#" class="slide-image-wrapper">
+                    <img
+                      src="./assets/images/helop.webp"
+                      alt="Slide 1"
+                      class="slide-image"
+                    />
+                  </a>
+                </div>
+              </div>
+
+              <div class="slide slide-2">
+                <div class="slide-left">
+                  <h1 class="hero-title text-white">
+                    Mở bán khóa DSA Pro
+                    <i class="fa-solid fa-crown" style="color: #ffd700"></i>
+                  </h1>
+                  <p class="hero-subtitle text-light">
+                    Trải nghiệm toàn bộ cấu trúc dữ liệu nâng cao như Tree,
+                    Graph, Trie với Animation 60FPS mượt mà.
+                  </p>
+                  <button class="btn btn-slider btn-slider-outline">
+                    ĐĂNG KÝ NGAY
+                  </button>
+                </div>
+                <div class="slide-right">
+                  <a href="#" class="slide-image-wrapper">
+                    <img
+                      src="./assets/images/singly-linked-list.WebP"
+                      alt="Slide 2"
+                      class="slide-image"
+                    />
+                  </a>
+                </div>
+              </div>
+
+              <div class="slide slide-3">
+                <div class="slide-left">
+                  <h1 class="hero-title text-white">DSA trên Facebook</h1>
+                  <p class="hero-subtitle text-light">
+                    Hàng ngàn lập trình viên đang thảo luận và giải đáp thắc mắc
+                    mỗi ngày. Ở đâu có lỗi logic, ở đó có chúng tôi.
+                  </p>
+                  <button class="btn btn-slider btn-slider-white">
+                    THAM GIA NHÓM
+                  </button>
+                </div>
+                <div class="slide-right">
+                  <a href="#" class="slide-image-wrapper">
+                    <img
+                      src="./assets/images/helop.webp"
+                      alt="Slide 3"
+                      class="slide-image"
+                      style="filter: hue-rotate(90deg)"
+                    />
+                  </a>
+                </div>
+              </div>
+
+              <div class="slide slide-4">
+                <div class="slide-left">
+                  <h1 class="hero-title text-white">DSA trên YouTube</h1>
+                  <p class="hero-subtitle text-light">
+                    Theo dõi kênh YouTube của chúng tôi để không bỏ lỡ các video
+                    phân tích thuật toán giải LeetCode hay nhất.
+                  </p>
+                  <button class="btn btn-slider btn-slider-outline">
+                    ĐĂNG KÝ KÊNH
+                  </button>
+                </div>
+                <div class="slide-right">
+                  <a href="#" class="slide-image-wrapper">
+                    <img
+                      src="./assets/images/singly-linked-list.WebP"
+                      alt="Slide 4"
+                      class="slide-image"
+                      style="filter: hue-rotate(180deg)"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <button class="slider-btn prev-btn" id="sliderPrev">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next-btn" id="sliderNext">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <div class="slider-dots" id="sliderDots">
+              <span class="dot active" data-index="0"></span>
+              <span class="dot" data-index="1"></span>
+              <span class="dot" data-index="2"></span>
+              <span class="dot" data-index="3"></span>
+            </div>
+          </div>
+          <!-- todo: phần thẻ bài học   -->
+          <h2 class="section-heading" style="border: none; margin-bottom: 10px">
+            Dành cho bạn
+          </h2>
 
           <div class="card-grid">
-            <!-- thẻ con trỏ -->
-            <div class="lesson-card">
-              <div class="card-thumb"><img class="memory-image" src="./assets/images/pointer.png" alt="Stack Heap"></div>
+            <div class="lesson-card" data-id="pointer">
+              <div class="card-thumb">
+                <span class="badge badge-beginner">Beginner</span>
+                <img
+                  class="memory-image"
+                  src="./assets/images/helop.webp"
+                  alt="Pointer"
+                />
+              </div>
               <div class="card-body">
                 <h3 class="card-title">Pointer in C++</h3>
                 <p class="card-desc">
@@ -68,62 +220,297 @@
               </div>
             </div>
 
-            <!-- thẻ liên kết đơn -->
-            <div class="lesson-card">
-              <div class="card-thumb">Linked List Image</div>
-              <div class="card-body">
-                <h3 class="card-title">Singly Linked List</h3>
-
-                <p class="card-desc">
-                  Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
-                  xóa.
-                </p>
-                <a
-                  href="./dsa-visualizer/pages/linkedlist.html"
-                  class="btn btn-primary"
-                  >Learn More</a
-                >
+            <div class="lesson-card" data-id="singly-linked-list">
+              <div class="card-thumb">
+                <span class="badge badge-intermediate">Intermediate</span>
+                <img
+                  class="memory-image"
+                  src="./assets/images/singly-linked-list.WebP"
+                  alt="Singly Linked List"
+                />
               </div>
-            </div>
-
-            <!-- thẻ liên kết đôi -->
-            <div class="lesson-card">
-              <div class="card-thumb">Doubly Linked List</div>
               <div class="card-body">
                 <h3 class="card-title">Singly Linked List</h3>
                 <p class="card-desc">
                   Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
                   xóa.
                 </p>
-                <a
-                  href="./dsa-visualizer/pages/doublylist.html"
-                  class="btn btn-primary"
+                <a href="./pages/linkedlist.html" class="btn btn-primary"
                   >Learn More</a
                 >
               </div>
             </div>
 
-            <!-- thẻ sơ đồ cây -->
-            <div class="lesson-card">
-              <div class="card-thumb">Tree</div>
+            <div class="lesson-card" data-id="array-string">
+              <div class="card-thumb">
+                <span class="badge badge-beginner">Beginner</span>
+                <img
+                  class="memory-image"
+                  src="./assets/images/helop.webp"
+                  alt="Array"
+                  style="filter: hue-rotate(90deg)"
+                />
+              </div>
               <div class="card-body">
-                <h3 class="card-title">Tree</h3>
+                <h3 class="card-title">Array & String</h3>
                 <p class="card-desc">
-                  Cấu trúc dữ liệu danh sách liên kết đơn và các thao tác thêm,
-                  xóa.
+                  Nắm vững mảng 1 chiều, 2 chiều và chuỗi ký tự cơ bản trong
+                  C++.
                 </p>
-                <a
-                  href="./dsa-visualizer/pages/tree.html"
-                  class="btn btn-primary"
-                  >Learn More</a
+                <a href="#" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+
+            <div class="lesson-card" data-id="stack-queue">
+              <div class="card-thumb">
+                <span class="badge badge-intermediate">Intermediate</span>
+                <img
+                  class="memory-image"
+                  src="./assets/images/singly-linked-list.WebP"
+                  alt="Stack Queue"
+                  style="filter: hue-rotate(180deg)"
+                />
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Stack & Queue</h3>
+                <p class="card-desc">
+                  Ngăn xếp và Hàng đợi. Nền tảng của thuật toán đệ quy và duyệt
+                  đồ thị.
+                </p>
+                <a href="#" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="view-more-container">
+            <button class="btn-view-more">Xem thêm khóa học</button>
+          </div>
+
+          <h2
+            class="section-heading"
+            style="border: none; margin-bottom: 10px; margin-top: 30px"
+          >
+            Khóa học Pro <span class="badge-pro">MỚI</span>
+          </h2>
+
+          <div class="card-grid">
+            <div class="lesson-card locked" data-id="doubly-linked-list">
+              <div class="card-thumb">
+                <div class="badge-crown"><i class="fa-solid fa-crown"></i></div>
+                <i class="fa-solid fa-lock lock-icon"></i>
+                <img
+                  class="memory-image"
+                  src="./assets/images/helop.webp"
+                  alt="Doubly List"
+                />
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Doubly Linked List</h3>
+                <p class="card-desc">
+                  Cấu trúc dữ liệu danh sách liên kết đôi và thao tác quản lý
+                  con trỏ 2 chiều.
+                </p>
+                <a href="#premium" class="btn btn-upgrade"
+                  ><i class="fa-solid fa-crown"></i> Upgrade</a
+                >
+              </div>
+            </div>
+
+            <div class="lesson-card locked" data-id="tree">
+              <div class="card-thumb">
+                <div class="badge-crown"><i class="fa-solid fa-crown"></i></div>
+                <i class="fa-solid fa-lock lock-icon"></i>
+                <img
+                  class="memory-image"
+                  src="./assets/images/singly-linked-list.WebP"
+                  alt="Binary Tree"
+                />
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Binary Tree</h3>
+                <p class="card-desc">
+                  Cấu trúc dữ liệu cây phân cấp, thuật toán duyệt cây kinh điển
+                  (Pre/In/Post).
+                </p>
+                <a href="#premium" class="btn btn-upgrade"
+                  ><i class="fa-solid fa-crown"></i> Upgrade</a
                 >
               </div>
             </div>
           </div>
+          <!-- nội dung làm đầy trang -->
+          <div
+            style="margin: 60px 0; border-top: 1px solid var(--border-color)"
+          ></div>
+
+          <h2 class="section-heading">Tại sao chọn DSA.Visualizer?</h2>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <h3>Trực quan hóa sinh động</h3>
+              <p>
+                Mọi thuật toán đều được minh họa từng bước bằng Animation mượt
+                mà, giúp bạn nhìn thấy dòng chảy của dữ liệu thay vì chỉ đọc
+                code khô khan.
+              </p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fa-solid fa-microchip"></i>
+              </div>
+              <h3>Mô phỏng bộ nhớ thật</h3>
+              <p>
+                Hệ thống chia tách rõ ràng vùng nhớ Stack (Con trỏ) và Heap (Dữ
+                liệu động) chuẩn xác theo cơ chế hoạt động của C++ dưới hệ điều
+                hành.
+              </p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+              <h3>Tương tác trực tiếp</h3>
+              <p>
+                Theo dõi từng dòng code được bôi sáng đồng bộ với chuyển động
+                của cấu trúc dữ liệu. Hỗ trợ Play/Pause để nghiền ngẫm từng bước
+                chạy.
+              </p>
+            </div>
+          </div>
+          <!-- foodter -->
+          <footer class="main-footer">
+            <div class="footer-container">
+              <div class="footer-col brand-col">
+                <a
+                  href="./index.html"
+                  class="brand-link"
+                  style="margin-bottom: 20px; display: inline-flex"
+                >
+                  <div class="brand-logo">
+                    <i class="fa-solid fa-layer-group"></i>
+                  </div>
+                  <span class="brand-name"
+                    >DSA<span class="brand-highlight">.Visualizer</span></span
+                  >
+                </a>
+                <p class="footer-desc">
+                  Nền tảng trực quan hóa cấu trúc dữ liệu và thuật toán hàng đầu
+                  dành cho người học C++.
+                </p>
+                <div class="contact-info">
+                  <p>
+                    <i class="fa-solid fa-envelope"></i> Email:
+                    contact@dsavisual.dev
+                  </p>
+                  <p><i class="fa-solid fa-location-dot"></i> Vietnam, Earth</p>
+                </div>
+              </div>
+
+              <div class="footer-col">
+                <h4 class="footer-heading">CẤU TRÚC DỮ LIỆU</h4>
+                <ul class="footer-links">
+                  <li><a href="./pages/pointer.html">Pointer & Memory</a></li>
+                  <li>
+                    <a href="./pages/linkedlist.html">Singly Linked List</a>
+                  </li>
+                  <li>
+                    <a href="./pages/doublylist.html">Doubly Linked List</a>
+                  </li>
+                  <li><a href="./pages/tree.html">Binary Search Tree</a></li>
+                  <li><a href="./pages/graph.html">Graph Algorithms</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4 class="footer-heading">DỰ ÁN MÃ NGUỒN MỞ</h4>
+                <ul class="footer-links">
+                  <li>
+                    <a href="#"
+                      ><i class="fa-brands fa-github"></i> Source code Github</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa-solid fa-bug"></i> Báo cáo lỗi (Issues)</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa-solid fa-code-pull-request"></i> Đóng góp
+                      code</a
+                    >
+                  </li>
+                  <li>
+                    <a href="./pages/roadmap.html"
+                      ><i class="fa-solid fa-map"></i> Lộ trình phát triển</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <p>
+                &copy; 2024 - 2026 DSA Visualizer. Dự án phi lợi nhuận vì cộng
+                đồng lập trình.
+              </p>
+              <div class="social-links">
+                <a href="#" class="social-btn"
+                  ><i class="fa-brands fa-github"></i
+                ></a>
+                <a href="#" class="social-btn"
+                  ><i class="fa-brands fa-facebook"></i
+                ></a>
+                <a href="#" class="social-btn"
+                  ><i class="fa-brands fa-discord"></i
+                ></a>
+                <a href="#" class="social-btn"
+                  ><i class="fa-brands fa-youtube"></i
+                ></a>
+              </div>
+            </div>
+          </footer>
         </main>
       </div>
     </div>
 
+    <div class="course-modal-overlay" id="courseModal">
+      <div class="course-modal-content">
+        <button class="close-modal-btn" id="closeModal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+          <h2 id="modalTitle">Tên Khóa Học</h2>
+        </div>
+
+        <div class="modal-body">
+          <p id="modalDesc">
+            Mô tả khóa học sẽ được JavaScript tự động lấy và điền vào đây...
+          </p>
+
+          <ul class="course-features">
+            <li>
+              <i class="fa-solid fa-check"></i> Trực quan hóa từng bước chạy
+              thuật toán
+            </li>
+            <li>
+              <i class="fa-solid fa-check"></i> Phân tích cặn kẽ bộ nhớ Stack &
+              Heap
+            </li>
+            <li>
+              <i class="fa-solid fa-check"></i> Tương tác trực tiếp với Code C++
+            </li>
+          </ul>
+        </div>
+
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" id="modalActionBtn"
+            >Bắt đầu học ngay</a
+          >
+        </div>
+      </div>
+    </div>
     <script src="./js/home.js"></script>
   </body>
 </html>

@@ -23,35 +23,44 @@
     <div class="app-container">
       <nav class="navbar">
         <div class="nav-left">
-          <a href="../index.html" class="nav-left logo-link">
-            <div class="logo-box">
-              <!-- <i class="fa-solid fa-microchip"></i> -->
-              <i
-                class="fa-brands fa-apple"
-                style="color: rgb(255, 255, 255)"
-              ></i>
+          <a href="../index.html" class="brand-link">
+            <div class="brand-logo">
+              <i class="fa-solid fa-layer-group"></i>
             </div>
-            <span class="website-name"
-              >DSA<span style="color: var(--accent-blue)"
-                >.Visualizer</span
-              ></span
-            >
+            <span class="brand-name">DSA<span class="brand-highlight">.Visualizer</span></span>
           </a>
         </div>
+
+        <div class="nav-right" style="display: flex; align-items: center;">
+          <a href="#" class="nav-action-link">
+            <i class="fa-solid fa-link"></i> Tài liệu
+          </a>
+          <a href="#" class="nav-action-link">
+            <i class="fa-solid fa-note-sticky"></i> Ghi chú
+          </a>
+          <a href="../index.html" class="btn-back-home">ChatGPT</a>
+        </div>
+
         <div class="nav-right">
-          <a href="../index.html" class="btn">Back to Home</a>
+          <a href="../index.html" class="btn-back-home">
+            Back to Home
+          </a>
         </div>
       </nav>
 
       <div class="main-wrapper">
-        <aside class="sidebar">
-          <div class="sidebar-menu">
-            <!-- <a href="../index.html" class="sidebar-item">
-              <i class="fa-solid fa-house"></i>
-              Home
-            </a> -->
+        <aside class="sidebar " id="lessonSidebar">
 
-            <!-- <div class="menu-item sidebar-item">Pointer</div> -->
+          <div class="sidebar-search">
+            <div class="search-wrapper-mini">
+              <i class="fa-solid fa-magnifying-glass search-icon-mini"></i>
+              <input type="text" placeholder="Tìm bài học..." class="search-input-mini" id="lessonSearchInput" />
+            </div>
+          </div>
+          
+          <div class="sidebar-content">
+          
+          <div class="sidebar-menu">
             <div class="menu-item open">
               <div class="sidebar-item menu-header menu-header-pointer">
                 1. Pointer
@@ -143,15 +152,19 @@
                 </a>
               </div>
             </div>
-
-            <!-- <a href="#" class="sidebar-item active" id="btn-pointer">
-              + Con trỏ cơ bản
-            </a>
-            <a href="#" class="sidebar-item" id="btn-dynamic">
-              + Cấp phát động
-            </a> -->
           </div>
+
+          <div class="sidebar-footer">
+            <button class="btn-toggle-sidebar" id="closeSidebarBtn" title="Thu gọn danh sách">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+          </div>
+
         </aside>
+
+        <button class="btn-open-sidebar" id="openSidebarBtn" title="Mở danh sách bài học">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
 
         <main class="workspace-wrapper">
           <div class="panels-container">
@@ -207,5 +220,52 @@
     <script src="../js/modules/pointer/pointer-data.js"></script>
     <script src="../js/modules/pointer/pointer-render.js"></script>
     <script src="../js/modules/pointer/pointer-control.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sidebar = document.getElementById("lessonSidebar");
+        const closeBtn = document.getElementById("closeSidebarBtn");
+        const openBtn = document.getElementById("openSidebarBtn");
+        const searchInput = document.getElementById("lessonSearchInput");
+
+        // 1. Chức năng Đóng/Mở Sidebar
+        if (closeBtn && openBtn && sidebar) {
+          closeBtn.addEventListener("click", () => sidebar.classList.add("collapsed"));
+          openBtn.addEventListener("click", () => sidebar.classList.remove("collapsed"));
+        }
+
+        // 2. Chức năng Tìm kiếm bài học
+        if (searchInput) {
+          searchInput.addEventListener("input", (e) => {
+            const term = e.target.value.toLowerCase();
+            const menuItems = document.querySelectorAll(".menu-item");
+
+            menuItems.forEach(item => {
+              const headerText = item.querySelector(".menu-header span").textContent.toLowerCase();
+              const lessons = item.querySelectorAll(".lesson-btn");
+              let hasMatch = false;
+
+              // Kiểm tra từng bài học con
+              lessons.forEach(lesson => {
+                const lessonText = lesson.textContent.toLowerCase();
+                if (lessonText.includes(term) || headerText.includes(term)) {
+                  lesson.style.display = "block";
+                  hasMatch = true;
+                } else {
+                  lesson.style.display = "none";
+                }
+              });
+
+              // Nếu có bài khớp, tự động mở menu đó ra, nếu không thì ẩn luôn cả cụm
+              if (hasMatch || term === "") {
+                item.style.display = "block";
+                if (term !== "") item.classList.add("open");
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+        }
+      });
+    </script>
   </body>
 </html>
