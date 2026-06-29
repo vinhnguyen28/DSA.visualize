@@ -36,7 +36,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "",
               row: 2,
-              col: 1,
+              col: 5,
               center: true,
             },
           ],
@@ -54,6 +54,7 @@ const lessons = {
       },
     ],
   },
+
   // ===========[1.2]===========
   AddressOperator: {
     codeLines: [
@@ -75,6 +76,7 @@ const lessons = {
           heap: [],
         },
       },
+      // .....
       {
         activeCodeLine: 2,
         explanation:
@@ -94,6 +96,7 @@ const lessons = {
           heap: [],
         },
       },
+      // .....
       {
         activeCodeLine: 3,
         explanation:
@@ -116,12 +119,13 @@ const lessons = {
               address: "0x200",
               pointsTo: "",
               row: 2,
-              col: 2,
+              col: 5,
             },
           ],
           heap: [],
         },
       },
+      // .....
       {
         activeCodeLine: 4,
         explanation:
@@ -145,12 +149,13 @@ const lessons = {
               pointsTo: "x",
               isUpdated: true,
               row: 2,
-              col: 2,
+              col: 5,
             },
           ],
           heap: [],
         },
       },
+      // ......
       {
         activeCodeLine: 5, // "*p = 20;"
         explanation: "Kết thúc hàm main, thu hồi bộ nhớ Stack.",
@@ -162,6 +167,7 @@ const lessons = {
       },
     ],
   },
+
   // ===========[1.3]===========
   Dereference: {
     codeLines: [
@@ -228,7 +234,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "",
               row: 2,
-              col: 2,
+              col: 5,
             },
           ],
           heap: [],
@@ -258,7 +264,7 @@ const lessons = {
               pointsTo: "x",
               isUpdated: true,
               row: 2,
-              col: 2,
+              col: 5,
             },
           ],
           heap: [],
@@ -287,7 +293,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "x",
               row: 2,
-              col: 2,
+              col: 5,
             },
           ],
           heap: [],
@@ -305,6 +311,7 @@ const lessons = {
       },
     ],
   },
+
   // ===========[1.4]===========
   PointerAssignment: {
     codeLines: [
@@ -323,6 +330,7 @@ const lessons = {
         explanation: null,
         memoryState: { variables: [], pointers: [], heap: [] },
       },
+      // .....
       {
         activeCodeLine: 2,
         explanation: "Tạo biến a trên vùng nhớ Stack và khởi tạo giá trị 5.",
@@ -341,6 +349,7 @@ const lessons = {
           heap: [],
         },
       },
+      // ......
       {
         activeCodeLine: 3,
         explanation: "Tạo biến b trên vùng nhớ Stack và khởi tạo giá trị 8.",
@@ -360,13 +369,14 @@ const lessons = {
               address: "0x400",
               type: "int",
               row: 1,
-              col: 2,
+              col: 5,
             },
           ],
           pointers: [],
           heap: [],
         },
       },
+      // ......
       {
         activeCodeLine: 4,
         explanation:
@@ -387,7 +397,7 @@ const lessons = {
               address: "0x400",
               type: "int",
               row: 1,
-              col: 2,
+              col: 5,
             },
           ],
           pointers: [
@@ -398,13 +408,14 @@ const lessons = {
               pointsTo: "a",
               isUpdated: true,
               row: 3,
-              col: 1,
+              col: 3,
               center: true,
             },
           ],
           heap: [],
         },
       },
+      // .......
       {
         activeCodeLine: 5,
         explanation:
@@ -425,7 +436,7 @@ const lessons = {
               address: "0x400",
               type: "int",
               row: 1,
-              col: 2,
+              col: 5,
             },
           ],
           pointers: [
@@ -436,13 +447,14 @@ const lessons = {
               pointsTo: "b",
               isUpdated: true,
               row: 3,
-              col: 1,
+              col: 3,
               center: true,
             },
           ],
           heap: [],
         },
       },
+      // .........
       {
         activeCodeLine: 6,
         explanation:
@@ -595,7 +607,7 @@ const lessons = {
               pointsTo: "value",
               isUpdated: true,
               row: 1,
-              col: 2,
+              col: 5,
             },
           ],
           heap: [],
@@ -624,7 +636,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "value",
               row: 1,
-              col: 2,
+              col: 5,
             },
             {
               name: "pp",
@@ -663,7 +675,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "value",
               row: 1,
-              col: 2,
+              col: 5,
             },
             {
               name: "pp",
@@ -725,7 +737,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "",
               row: 1,
-              col: 1,
+              col: 3,
               center: true,
             },
           ],
@@ -746,7 +758,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "dyn1",
               row: 1,
-              col: 1,
+              col: 3,
               center: true,
             },
           ],
@@ -757,7 +769,7 @@ const lessons = {
               value: "???",
               address: "0x500",
               row: 2,
-              col: 1,
+              col: 3,
             },
           ],
         },
@@ -775,7 +787,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "dyn1",
               row: 1,
-              col: 1,
+              col: 3,
               center: true,
             },
           ],
@@ -787,7 +799,7 @@ const lessons = {
               address: "0x500",
               isUpdated: true,
               row: 2,
-              col: 1,
+              col: 3,
             },
           ],
         },
@@ -806,7 +818,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "",
               row: 1,
-              col: 1,
+              col: 3,
               center: true,
             },
           ],
@@ -817,7 +829,7 @@ const lessons = {
               value: "???",
               address: "???",
               row: 2,
-              col: 1,
+              col: 3,
             },
           ],
         },
@@ -864,7 +876,7 @@ const lessons = {
               pointsTo: "",
               isUpdated: true,
               row: 1,
-              col: 1,
+              col: 4,
             },
           ],
           heap: [],
@@ -884,7 +896,7 @@ const lessons = {
               address: "0x200",
               pointsTo: "no-name",
               row: 1,
-              col: 1,
+              col: 4,
             },
           ],
           heap: [
@@ -894,7 +906,7 @@ const lessons = {
               value: "10",
               address: "0x500",
               row: 2,
-              col: 1,
+              col: 4,
             },
           ],
         },
@@ -913,17 +925,17 @@ const lessons = {
               address: "0x200",
               pointsTo: "",
               row: 1,
-              col: 1,
+              col: 4,
             },
           ],
           heap: [
             {
-              name: "???",
+              name: "",
               type: "int",
               value: "",
-              address: "",
+              address: "0x000",
               row: 2,
-              col: 1,
+              col: 4,
             },
           ],
         },
@@ -978,8 +990,8 @@ const lessons = {
               type: "int",
               value: "10",
               address: "0x500",
-              row: 2,
-              col: 1,
+              row: 1,
+              col: 3,
             },
           ],
         },
@@ -1009,8 +1021,8 @@ const lessons = {
               type: "int",
               value: "10",
               address: "0x500",
-              row: 2,
-              col: 1,
+              row: 1,
+              col: 3,
             },
           ],
         },
@@ -1029,8 +1041,8 @@ const lessons = {
               type: "int",
               value: "10",
               address: "0x500",
-              row: 2,
-              col: 1,
+              row: 1,
+              col: 3,
             },
           ],
         },
@@ -1080,8 +1092,8 @@ const lessons = {
               type: "int",
               value: "10",
               address: "0x500",
-              row: 2,
-              col: 1,
+              row: 1,
+              col: 3,
             },
           ],
         },
@@ -1111,8 +1123,8 @@ const lessons = {
               type: "",
               value: "Released Memory",
               address: "?",
-              row: 2,
-              col: 1,
+              row: 1,
+              col: 3,
             },
           ],
         },

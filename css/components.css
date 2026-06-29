@@ -528,7 +528,7 @@
   width: 72px;
   height: 72px;
   padding: 0;
-  margin: 0 0 12px 0; /* Khoảng cách giữa các nút */
+  margin: 10px 0 12px 0; /* Khoảng cách giữa các nút */
   border-radius: 16px; /* Bo góc tròn giống F8 */
   border-left: none; /* Xóa vạch kẻ viền bên trái của style cũ */
   color: var(--text-secondary);
@@ -707,12 +707,16 @@
 /* ======================================= */
 /* BỔ SUNG GIAO DIỆN SIDEBAR               */
 /* ======================================= */
+/* 1. Ép Sidebar chiếm trọn chiều cao từ dưới Navbar xuống kịch đáy */
 .sidebar {
-  padding: 0 !important; /* Xóa padding cũ để thiết lập vùng cuộn mới */
-  overflow: hidden !important;
-  transition:
-    width 0.3s ease,
-    opacity 0.3s ease;
+  padding: 0 !important; 
+  overflow: hidden !important; 
+  transition: width 0.3s ease, opacity 0.3s ease;
+  
+  /* THÊM 2 DÒNG NÀY */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px); /* 100% màn hình trừ đi 64px của Navbar */
 }
 
 /* Trạng thái bị thu gọn */
@@ -753,26 +757,32 @@
   border-color: var(--accent-info);
 }
 
-/* Vùng chứa bài học (Có thanh cuộn) */
+/* 2. Ép phần nội dung (danh sách bài học) bung hết cỡ để đẩy Footer xuống */
 .sidebar-content {
-  flex: 1;
-  overflow-y: auto;
+  flex: 1; /* Chìa khóa ở đây: Lấy toàn bộ không gian trống */
+  overflow-y: auto; /* Chỉ cuộn phần bài học, không cuộn footer */
   padding: 10px 15px;
 }
 
-/* Vùng nút bấm ở cuối (Thu gọn) */
+/* 3. Thiết kế lại Footer bám đáy giống F8 */
 .sidebar-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 10px 15px;
+  background-color: #1a1a1c; /* Đổ màu nền tối hơn một chút cho dải đáy */
+  padding: 12px 15px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: flex-end; /* Nếu muốn thêm text "Thu gọn" bên trái thì đổi thành space-between */
+  margin-top: auto; /* Chốt chặn: Luôn đẩy dạt xuống dưới cùng */
+  z-index: 10;
 }
+
+/* 4. Làm đẹp nút bấm giống ảnh 2 (Vòng tròn nhỏ nhắn, có viền mờ) */
 .btn-toggle-sidebar {
   background: rgba(255, 255, 255, 0.05);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Thêm viền mờ */
   color: var(--text-secondary);
-  width: 32px;
-  height: 32px;
+  width: 36px;  /* To hơn một chút xíu cho dễ bấm */
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -780,9 +790,11 @@
   justify-content: center;
   transition: all 0.2s ease;
 }
+
 .btn-toggle-sidebar:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15); /* Sáng lên khi hover */
   color: var(--text-white);
+  transform: scale(1.05); /* Hiệu ứng nảy nhẹ */
 }
 
 /* Nút mũi tên lồi ra khi Sidebar bị đóng (Giống F8) */
