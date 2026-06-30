@@ -106,3 +106,45 @@
     box-shadow: 0 0 22px rgba(79, 195, 247, 0.9);
   }
 }
+
+/* =========================================================
+   HIỆU ỨNG MŨI TÊN (Tối ưu hóa chuyển động)
+   ========================================================= */
+.animated-arrow {
+  /* Hiệu ứng uốn cong đường nét cực mượt khi node di chuyển hoặc đổi target */
+  transition:
+    d 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.3s;
+  pointer-events: stroke; /* Chỉ bắt sự kiện hover ngay trên nét vẽ */
+}
+
+/* Hiệu ứng Hover làm nổi bật mũi tên */
+.animated-arrow:hover {
+  stroke-width: 4px;
+  filter: drop-shadow(0 0 6px currentColor);
+  z-index: 100;
+}
+
+/* Con trỏ hợp lệ nhưng đang bị mờ đi khi hover mũi tên khác (Optional) */
+.animated-arrow.dimmed {
+  opacity: 0.15;
+}
+
+/* =========================================================
+   NGỮ NGHĨA CON TRỞ (Semantic Pointers)
+   ========================================================= */
+/* Dangling Pointer (Trỏ vào vùng nhớ đã bị delete/free) */
+.arrow-dangling {
+  stroke: #f44336 !important; /* Màu đỏ cảnh báo */
+  stroke-dasharray: 6 4 !important; /* Nét đứt */
+  animation: danglingAlert 1s infinite alternate;
+}
+
+@keyframes danglingAlert {
+  from {
+    filter: drop-shadow(0 0 2px #f44336);
+  }
+  to {
+    filter: drop-shadow(0 0 8px #f44336);
+  }
+}

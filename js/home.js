@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("Home page loaded successfully.");
 
   // ---------------------------------------
-  // 1. LOGIC TÌM KIẾM
+  //! 1. LOGIC TÌM KIẾM
   // ---------------------------------------
   const searchBar = document.querySelector(".search-input"); // Đã đổi tên class theo UI mới
   if (searchBar) {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ---------------------------------------
-  // 2. KHO DỮ LIỆU CHI TIẾT CHO POPUP
+  //! 2. KHO DỮ LIỆU CHI TIẾT CHO POPUP
   // ---------------------------------------
   const courseData = {
     pointer: {
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ---------------------------------------
-  // 3. LOGIC HIỂN THỊ POPUP
+  //! 3. LOGIC HIỂN THỊ POPUP
   // ---------------------------------------
   const modal = document.getElementById("courseModal");
   const closeModalBtn = document.getElementById("closeModal");
@@ -180,7 +180,7 @@ upgradeButtons.forEach((btn) => {
 });
 
 // ==========================================
-// 4. LOGIC HERO SLIDER (INFINITE LOOP CAROUSEL)
+//! 4. LOGIC HERO SLIDER (INFINITE LOOP CAROUSEL)
 // ==========================================
 const track = document.getElementById("sliderTrack");
 const originalSlides = Array.from(document.querySelectorAll(".slide"));

@@ -20,8 +20,8 @@ class PointerRenderer extends BaseRenderer {
         : "animation: popIn var(--transition-normal) forwards;";
 
       stackHtml += `
-        <div 
-          class="memory-block memory-var ${updateClass}" 
+        <div
+          class="memory-block memory-var ${updateClass}"
           id="var-${v.name}"
           title="Variable: ${v.name}&#10;Type: ${v.type}&#10;Address: ${v.address}"
           style="grid-row:${v.row}; grid-column:${v.col}; ${animStyle}"
@@ -52,7 +52,7 @@ class PointerRenderer extends BaseRenderer {
         valClass = "val-null";
 
       stackHtml += `
-        <div 
+        <div
           class="memory-block memory-ptr ${p.center ? "pointer-center" : ""} ${updateClass}"
           id="ptr-${p.name}"
           title="Pointer: ${p.name}&#10;Type: int*&#10;Address: ${p.address}&#10;Points to: ${p.pointsTo || "None"}"
@@ -79,9 +79,9 @@ class PointerRenderer extends BaseRenderer {
       else if (cell.value === "Released Memory") valClass = "val-null";
 
       heapHtml += `
-        <div 
-          class="memory-block memory-heap heap-block ${updateClass}" 
-          id="heap-${cell.name}" 
+        <div
+          class="memory-block memory-heap heap-block ${updateClass}"
+          id="heap-${cell.name}"
           title="Dynamic Memory (Heap)&#10;Address: ${cell.address}"
           style="grid-row:${cell.row}; grid-column:${cell.col}; ${animStyle}"
         >

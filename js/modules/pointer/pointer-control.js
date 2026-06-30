@@ -1,5 +1,6 @@
 // File: js/pointer/pointer-control.js
-
+//
+//
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Khởi tạo Renderer và ráp nó vào Controller
   const renderer = new PointerRenderer();
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "btn-DanglingPointer": lessons.DanglingPointer,
   };
 
+  // sử lí xoá và thêm active vào nav-bar
   function setActiveButton(button) {
     document.querySelectorAll(".lesson-btn").forEach((btn) => {
       btn.classList.remove("active");
@@ -46,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault(); // Ngăn chặn trang bị cuộn hoặc nhảy khi click thẻ <a>
         setActiveButton(btnElement);
 
-        // Gọi thẳng controller để nạp bài mới, nó sẽ tự lo việc dừng video, reset step, update UI...
+        // Gọi thẳng controller để nạp bài mới, nó sẽ tự lo việc dừng, reset step, update UI...
         controller.loadLesson(lessonMapping[btnId]);
       });
     }

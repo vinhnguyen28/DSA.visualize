@@ -38,8 +38,8 @@
 
         <!-- TODO: login signup - avata  -->
         <div class="nav-right">
-          <button class="btn-ghost">Log in</button>
-          <button class="btn-gradient">Sign up</button>
+          <button class="btn-ghost" id="btn-open-login">Log in</button>
+          <button class="btn-gradient" id="btn-open-register">Sign up</button>
 
           <div class="nav-icon-btn">
             <i class="fa-regular fa-bell"></i>
@@ -77,6 +77,10 @@
             <a href="./pages/qa.html" class="sidebar-item">
               <i class="fa-solid fa-comments"></i>
               <span>Hỏi đáp</span>
+            </a>
+            <a href="./pages/qa.html" class="sidebar-item">
+              <i class="fa-solid fa-book"></i>
+              <span>Thư viện</span>
             </a>
           </div>
         </aside>
@@ -402,7 +406,10 @@
                     <i class="fa-solid fa-envelope"></i> Email:
                     contact@dsavisual.dev
                   </p>
-                  <p><i class="fa-solid fa-location-dot"></i> Vietnam, Earth</p>
+                  <p>
+                    <i class="fa-solid fa-location-dot"></i> Số 215 Điện Biên
+                    Phủ, Phường 15, Quận Bình Thạnh, TP.HCM
+                  </p>
                 </div>
               </div>
 
@@ -425,17 +432,28 @@
                 <h4 class="footer-heading">DỰ ÁN MÃ NGUỒN MỞ</h4>
                 <ul class="footer-links">
                   <li>
-                    <a href="#"
-                      ><i class="fa-brands fa-github"></i> Source code Github</a
+                    <a
+                      href="https://github.com/vinhnguyen28/DSA.visualize"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
+                      <i class="fa-brands fa-github"></i>
+                      Source code Github
+                    </a>
                   </li>
                   <li>
-                    <a href="#"
+                    <a
+                      href="https://github.com/vinhnguyen28/DSA.visualize/issues"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       ><i class="fa-solid fa-bug"></i> Báo cáo lỗi (Issues)</a
                     >
                   </li>
                   <li>
-                    <a href="#"
+                    <a
+                      href="https://github.com/vinhnguyen28/DSA.visualize/pulls"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       ><i class="fa-solid fa-code-pull-request"></i> Đóng góp
                       code</a
                     >
@@ -511,6 +529,73 @@
         </div>
       </div>
     </div>
+
+    <!-- ! đăng kí đăng nhập popup -->
+    <div class="auth-modal-overlay" id="auth-modal">
+      <div class="auth-modal-content">
+        <button class="close-auth-btn" id="close-auth-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="auth-header">
+          <div class="auth-logo">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <h2 id="auth-title">Đăng ký tài khoản</h2>
+          <p class="auth-subtitle" id="auth-subtitle">
+            Mỗi người nên sử dụng riêng một tài khoản, tài khoản nhiều người sử
+            dụng chung sẽ bị khóa.
+          </p>
+        </div>
+
+        <div class="auth-body">
+          <a href="#login-google" class="auth-btn btn-google">
+            <img
+              src="./assets/images/google-color-svgrepo-com.svg"
+              alt="Google"
+              class="auth-icon-img"
+            />
+            <span id="text-google">Đăng ký với Google</span>
+          </a>
+
+          <a href="#login-facebook" class="auth-btn btn-facebook">
+            <i class="fa-brands fa-facebook auth-icon-font"></i>
+            <span id="text-facebook">Đăng ký với Facebook</span>
+          </a>
+
+          <a href="#login-github" class="auth-btn btn-github">
+            <i class="fa-brands fa-github auth-icon-font"></i>
+            <span id="text-github">Đăng ký với GitHub</span>
+          </a>
+
+          <a href="#login-email" class="auth-btn btn-email">
+            <i class="fa-regular fa-envelope auth-icon-font"></i>
+            <span id="text-email">Sử dụng email / số điện thoại</span>
+          </a>
+        </div>
+
+        <div class="auth-footer">
+          <p id="auth-toggle-text">
+            Bạn đã có tài khoản?
+            <span class="auth-link-highlight" id="auth-toggle-btn"
+              >Đăng nhập</span
+            >
+          </p>
+          <a
+            href="#forgot-password"
+            class="auth-link-muted"
+            id="auth-forgot-link"
+            style="display: none"
+            >Quên mật khẩu?</a
+          >
+          <p class="auth-terms">
+            Việc bạn tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với
+            <a href="#terms">điều khoản sử dụng</a> của chúng tôi.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="./js/core/auth.js"></script>
     <script src="./js/home.js"></script>
   </body>
 </html>

@@ -1,5 +1,6 @@
-// File: js/linkedlist/singly-linked-list-control.js
-
+//
+//
+//
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Khởi tạo Renderer của Linked List và ráp vào Controller chung
   // Chú ý: SinglyListRenderer sẽ được viết ở file render,

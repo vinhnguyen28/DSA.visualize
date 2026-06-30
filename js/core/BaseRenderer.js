@@ -1,4 +1,6 @@
 // File: js/core/BaseRenderer.js
+//
+//
 class BaseRenderer {
   constructor() {
     this.codeContainer = document.getElementById("code-container");
@@ -69,14 +71,14 @@ class BaseRenderer {
     const lockHtml = `
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; min-height: 250px; padding: 20px;">
         <i class="fa-solid fa-lock" style="font-size: clamp(80px, 12vw, 160px); color: rgb(133, 133, 133); margin-bottom: 25px; opacity: 0.6;"></i>
-        
+
         <div style="font-size: clamp(20px, 2.5vw, 28px); font-weight: bold; color: rgb(133, 133, 133); letter-spacing: 6px; margin-bottom: 30px; opacity: 0.6;">
           UPGRADE
         </div>
-        
-        <a href="#" 
+
+        <a href="#"
            style="display: inline-flex; align-items: center; justify-content: center; padding: 12px 32px; font-size: 16px; font-weight: bold; font-family: var(--font-main); color: #1e1e1e; background-color: var(--accent-orange); text-decoration: none; border-radius: var(--radius-pill); box-shadow: 0 4px 15px var(--orange-25); transition: all 0.3s ease; cursor: pointer;"
-           onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 183, 77, 0.4)';" 
+           onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 183, 77, 0.4)';"
            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px var(--orange-25)';">
            <i class="fa-solid fa-crown" style="margin-right: 8px;"></i> Unlock Premium
         </a>
@@ -94,6 +96,7 @@ class BaseRenderer {
       currentLineInfo.textContent = "PREMIUM FEATURE";
     }
   }
+
   // 4. Update UI tổng thể (DÙNG CHUNG luồng chạy)
   updateUI(lessonData, currentStepIndex) {
     // KIỂM TRA NẾU BÀI HỌC BỊ KHÓA THÌ VẼ Ổ KHÓA RỒI DỪNG LUÔN

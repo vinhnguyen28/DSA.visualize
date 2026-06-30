@@ -1,5 +1,8 @@
 // File: js/core/controller.js
-
+/**
+ * Hàm controller trung , nút bấm next, prev, reset, .....
+ *
+ */
 class VisualizerController {
   constructor(renderer) {
     this.renderer = renderer;
@@ -10,10 +13,12 @@ class VisualizerController {
     this.playInterval = null;
     this.speed = 1500;
 
+    // Các nút điều khiển
     this.btnNext = document.getElementById("btn-next");
     this.btnPrev = document.getElementById("btn-prev");
     this.btnReset = document.getElementById("btn-reset");
     this.btnPlayPause = document.getElementById("btn-play-pause");
+    // Hiển thị số bước
     this.stepIndicator = document.getElementById("step-indicator");
 
     this.bindEvents();
