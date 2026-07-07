@@ -163,3 +163,4 @@ class PointerRenderer extends BaseRenderer {
     }, 400);
   }
 }
+``;

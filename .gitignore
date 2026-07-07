@@ -2,3 +2,7 @@
 __pycache__/
 *.pyc
 .vscode/
+# Ignore ANTLR source và Interpreter
+/tools/generator/
+/tools/grammars/
+/tools/test/test.cpp
